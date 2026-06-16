@@ -1,0 +1,16 @@
+<svg width="1280" height="840" viewBox="0 0 1280 840" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="840" rx="36" fill="#F8F3EA"/>
+  <rect x="44" y="44" width="1192" height="752" rx="28" fill="#FFFDF8" stroke="#E6D9C6" stroke-width="2"/>
+  <circle cx="268" cy="266" r="132" fill="#E8C6A8"/>
+  <circle cx="268" cy="266" r="96" fill="#C96F3B"/>
+  <rect x="476" y="178" width="598" height="30" rx="15" fill="#D3C2AE"/>
+  <rect x="476" y="230" width="512" height="22" rx="11" fill="#E6D9C6"/>
+  <rect x="476" y="292" width="280" height="176" rx="22" fill="#F1E3D5"/>
+  <rect x="794" y="292" width="280" height="176" rx="22" fill="#E2EBF0"/>
+  <rect x="476" y="500" width="598" height="32" rx="16" fill="#DCC8B1"/>
+  <rect x="476" y="552" width="456" height="20" rx="10" fill="#E6D9C6"/>
+  <rect x="476" y="604" width="538" height="20" rx="10" fill="#E6D9C6"/>
+  <text x="102" y="670" fill="#7E624B" font-family="Arial, sans-serif" font-size="38" font-weight="700">Hero teaser placeholder</text>
+  <text x="102" y="718" fill="#9D856E" font-family="Arial, sans-serif" font-size="28">Replace with your strongest image, video poster, or stitched comparison.</text>
+</svg>
+

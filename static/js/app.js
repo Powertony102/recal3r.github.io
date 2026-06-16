@@ -1,0 +1,403 @@
+const menuToggle = document.querySelector(".menu-toggle");
+const siteNav = document.querySelector(".site-nav");
+const copyButtons = document.querySelectorAll("[data-copy-target]");
+const revealItems = document.querySelectorAll(".reveal");
+const currentYear = document.querySelector("#current-year");
+const qualitativeViewer = document.querySelector("#qualitative-viewer");
+const visualizationTitle = document.querySelector("#visualization-title");
+const visualizationFile = document.querySelector("#visualization-file");
+const visualizationThumbContainer = document.querySelector("#visualization-thumbnails");
+const comparisonSceneTitle = document.querySelector("#comparison-scene-title");
+const comparisonViewerContainer = document.querySelector("#comparison-viewers");
+const comparisonSceneContainer = document.querySelector("#comparison-scenes");
+const comparisonResetButton = document.querySelector("#comparison-reset");
+const comparisonSyncToggle = document.querySelector("#comparison-sync");
+const visualizationItems = [
+  {
+    id: "dl3dv_5c3a",
+    title: "DL3DV 5C3A",
+    imageSrc: "assets/glb/dl3dv_5c3a/dl3dv_5c3a.png",
+    modelSrc: "assets/glb/dl3dv_5c3a/dl3dv_5c3a.glb",
+  },
+  {
+    id: "dl3dv_5f00",
+    title: "DL3DV 5F00",
+    imageSrc: "assets/glb/dl3dv_5f00/dl3dv_5f00.png",
+    modelSrc: "assets/glb/dl3dv_5f00/dl3dv_5f00.glb",
+  },
+  {
+    id: "whiteroom",
+    title: "White Room",
+    imageSrc: "assets/glb/whiteroom/whiteroom.png",
+    modelSrc: "assets/glb/whiteroom/whiteroom.glb",
+  },
+];
+const comparisonScenes = [
+  {
+    id: "kitchen",
+    title: "Kitchen",
+    imageSrc: "assets/comp/kitchen/kitchen.png",
+    methods: [
+      {
+        id: "tag3r",
+        label: "TAG3R",
+        description: "Trust-aware adaptive gating",
+        modelSrc: "assets/comp/kitchen/tag3r/scene.glb",
+      },
+      {
+        id: "cut3r",
+        label: "CUT3R",
+        description: "Streaming recurrent baseline",
+        modelSrc: "assets/comp/kitchen/cut3r/scene.glb",
+      },
+      {
+        id: "ttt3r",
+        label: "TTT3R",
+        description: "Test-time training baseline",
+        modelSrc: "assets/comp/kitchen/ttt3r/scene.glb",
+      },
+    ],
+  },
+];
+let comparisonViewers = [];
+let isSyncingComparisonCamera = false;
+
+function setActiveVisualization(item, triggerButton, loadModel = true) {
+  if (!qualitativeViewer) {
+    return;
+  }
+
+  const { title, modelSrc } = item;
+
+  if (loadModel) {
+    qualitativeViewer.setAttribute("src", modelSrc);
+  } else {
+    qualitativeViewer.removeAttribute("src");
+  }
+  qualitativeViewer.setAttribute("poster", item.imageSrc);
+  resetQualitativeViewerCamera();
+  qualitativeViewer.setAttribute(
+    "alt",
+    `Interactive 3D reconstruction visualized from the ${title} scene.`
+  );
+
+  if (visualizationTitle) {
+    visualizationTitle.textContent = title;
+  }
+
+  if (visualizationFile) {
+    visualizationFile.textContent = modelSrc;
+  }
+
+  if (visualizationThumbContainer) {
+    visualizationThumbContainer
+      .querySelectorAll(".visualization-thumb")
+      .forEach((thumb) => {
+        const isActive = thumb === triggerButton;
+        thumb.classList.toggle("is-active", isActive);
+        thumb.setAttribute("aria-pressed", String(isActive));
+      });
+  }
+}
+
+function resetComparisonViewerCamera(viewer) {
+  if (!viewer) {
+    return;
+  }
+
+  viewer.cameraOrbit = "180deg 70deg auto";
+  viewer.fieldOfView = "32deg";
+  if (typeof viewer.resetTurntableRotation === "function") {
+    viewer.resetTurntableRotation(0);
+  }
+  if (typeof viewer.jumpCameraToGoal === "function") {
+    viewer.jumpCameraToGoal();
+  }
+}
+
+function syncComparisonCamera(sourceViewer) {
+  if (
+    isSyncingComparisonCamera ||
+    !comparisonSyncToggle ||
+    !comparisonSyncToggle.checked ||
+    !sourceViewer ||
+    typeof sourceViewer.getCameraOrbit !== "function"
+  ) {
+    return;
+  }
+
+  const orbit = sourceViewer.getCameraOrbit();
+  const fieldOfView =
+    typeof sourceViewer.getFieldOfView === "function"
+      ? sourceViewer.getFieldOfView()
+      : null;
+
+  isSyncingComparisonCamera = true;
+  comparisonViewers.forEach((viewer) => {
+    if (viewer === sourceViewer) {
+      return;
+    }
+
+    viewer.cameraOrbit = `${orbit.theta}rad ${orbit.phi}rad ${orbit.radius}m`;
+    if (fieldOfView) {
+      viewer.fieldOfView = `${fieldOfView}deg`;
+    }
+    if (typeof viewer.jumpCameraToGoal === "function") {
+      viewer.jumpCameraToGoal();
+    }
+  });
+  isSyncingComparisonCamera = false;
+}
+
+function createComparisonViewer(scene, method) {
+  const card = document.createElement("article");
+  const header = document.createElement("div");
+  const label = document.createElement("span");
+  const description = document.createElement("span");
+  const frame = document.createElement("div");
+
+  card.className = `comparison-viewer-card comparison-viewer-card-${method.id}`;
+  header.className = "comparison-viewer-header";
+  label.className = "comparison-method-label";
+  description.className = "comparison-method-description";
+  frame.className = "comparison-viewer-frame";
+
+  label.textContent = method.label;
+  description.textContent = method.description;
+  header.appendChild(label);
+  header.appendChild(description);
+  card.appendChild(header);
+
+  if (method.modelSrc) {
+    const viewer = document.createElement("model-viewer");
+    viewer.className = "comparison-model-viewer";
+    viewer.setAttribute("src", method.modelSrc);
+    viewer.setAttribute("poster", scene.imageSrc);
+    viewer.setAttribute("alt", `${method.label} reconstruction for ${scene.title}.`);
+    viewer.setAttribute("loading", "lazy");
+    viewer.setAttribute("camera-controls", "");
+    viewer.setAttribute("touch-action", "pan-y");
+    viewer.setAttribute("disable-tap", "");
+    viewer.setAttribute("interaction-prompt", "none");
+    viewer.setAttribute("camera-orbit", "180deg 70deg auto");
+    viewer.setAttribute("field-of-view", "32deg");
+    viewer.setAttribute("zoom-sensitivity", "0.2");
+    viewer.setAttribute("min-camera-orbit", "auto auto 1m");
+    viewer.setAttribute("max-camera-orbit", "auto auto 10m");
+    viewer.setAttribute("shadow-intensity", "0");
+    viewer.setAttribute("disable-shadow", "");
+    viewer.setAttribute("exposure", "1");
+    viewer.setAttribute("environment-image", "legacy");
+    viewer.addEventListener("load", () => resetComparisonViewerCamera(viewer));
+    viewer.addEventListener("camera-change", () => syncComparisonCamera(viewer));
+    frame.appendChild(viewer);
+    comparisonViewers.push(viewer);
+  } else {
+    const placeholder = document.createElement("div");
+    const image = document.createElement("img");
+    const text = document.createElement("p");
+
+    placeholder.className = "comparison-missing";
+    image.src = scene.imageSrc;
+    image.alt = `${scene.title} RGB reference`;
+    text.textContent = `Missing model: ${method.modelSrc}`;
+
+    placeholder.appendChild(image);
+    placeholder.appendChild(text);
+    frame.appendChild(placeholder);
+  }
+
+  card.appendChild(frame);
+  return card;
+}
+
+function setActiveComparisonScene(scene, triggerButton) {
+  if (!comparisonViewerContainer) {
+    return;
+  }
+
+  comparisonViewers = [];
+  comparisonViewerContainer.innerHTML = "";
+
+  if (comparisonSceneTitle) {
+    comparisonSceneTitle.textContent = scene.title;
+  }
+
+  scene.methods.forEach((method) => {
+    comparisonViewerContainer.appendChild(createComparisonViewer(scene, method));
+  });
+
+  if (comparisonSceneContainer) {
+    comparisonSceneContainer.querySelectorAll(".comparison-scene-thumb").forEach((thumb) => {
+      const isActive = thumb === triggerButton;
+      thumb.classList.toggle("is-active", isActive);
+      thumb.setAttribute("aria-pressed", String(isActive));
+    });
+  }
+}
+
+function renderComparisonGallery() {
+  if (!comparisonViewerContainer || !comparisonSceneContainer) {
+    return;
+  }
+
+  if (comparisonScenes.length === 0) {
+    comparisonViewerContainer.textContent = "No comparison scenes found in assets/comp/.";
+    return;
+  }
+
+  comparisonViewerContainer.innerHTML = "";
+  comparisonSceneContainer.innerHTML = "";
+
+  comparisonScenes.forEach((scene, index) => {
+    const button = document.createElement("button");
+    const image = document.createElement("img");
+    const label = document.createElement("span");
+
+    button.className = "comparison-scene-thumb";
+    button.type = "button";
+    button.setAttribute("role", "listitem");
+    button.setAttribute("aria-pressed", "false");
+
+    image.src = scene.imageSrc;
+    image.alt = `${scene.title} RGB input`;
+    label.textContent = scene.title;
+
+    button.appendChild(image);
+    button.appendChild(label);
+    button.addEventListener("click", () => setActiveComparisonScene(scene, button));
+    comparisonSceneContainer.appendChild(button);
+
+    if (index === 0) {
+      setActiveComparisonScene(scene, button);
+    }
+  });
+}
+
+function resetQualitativeViewerCamera() {
+  if (!qualitativeViewer) {
+    return;
+  }
+
+  qualitativeViewer.cameraOrbit = "180deg 70deg auto";
+  if (typeof qualitativeViewer.resetTurntableRotation === "function") {
+    qualitativeViewer.resetTurntableRotation(0);
+  }
+  if (typeof qualitativeViewer.jumpCameraToGoal === "function") {
+    qualitativeViewer.jumpCameraToGoal();
+  }
+}
+
+function renderVisualizationGallery() {
+  if (!qualitativeViewer || !visualizationThumbContainer) {
+    return;
+  }
+
+  if (visualizationItems.length === 0) {
+    visualizationThumbContainer.textContent = "No visualization sequences found in assets/glb/.";
+    return;
+  }
+
+  visualizationThumbContainer.innerHTML = "";
+
+  visualizationItems.forEach((item, index) => {
+    const { title, imageSrc } = item;
+    const button = document.createElement("button");
+    const image = document.createElement("img");
+    const label = document.createElement("span");
+
+    button.className = "visualization-thumb";
+    button.type = "button";
+    button.setAttribute("role", "listitem");
+    button.setAttribute("aria-pressed", "false");
+
+    image.src = imageSrc;
+    image.alt = `RGB thumbnail for ${title}`;
+
+    label.className = "visualization-thumb-label";
+    label.textContent = title;
+
+    button.appendChild(image);
+    button.appendChild(label);
+    button.addEventListener("click", () => setActiveVisualization(item, button, true));
+
+    visualizationThumbContainer.appendChild(button);
+
+    if (index === 0) {
+      setActiveVisualization(item, button, false);
+    }
+  });
+}
+
+if (menuToggle && siteNav) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = siteNav.classList.toggle("is-open");
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  siteNav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      siteNav.classList.remove("is-open");
+      menuToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+}
+
+copyButtons.forEach((button) => {
+  button.addEventListener("click", async () => {
+    const targetId = button.getAttribute("data-copy-target");
+    const target = targetId ? document.getElementById(targetId) : null;
+
+    if (!target) {
+      return;
+    }
+
+    const originalText = button.textContent;
+
+    try {
+      await navigator.clipboard.writeText(target.textContent.trim());
+      button.textContent = "Copied";
+    } catch (error) {
+      button.textContent = "Copy Failed";
+    }
+
+    window.setTimeout(() => {
+      button.textContent = originalText;
+    }, 1400);
+  });
+});
+
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.14 }
+  );
+
+  revealItems.forEach((item) => observer.observe(item));
+} else {
+  revealItems.forEach((item) => item.classList.add("is-visible"));
+}
+
+if (currentYear) {
+  currentYear.textContent = String(new Date().getFullYear());
+}
+
+renderVisualizationGallery();
+// renderComparisonGallery();
+
+if (qualitativeViewer) {
+  qualitativeViewer.addEventListener("load", resetQualitativeViewerCamera);
+}
+
+// if (comparisonResetButton) {
+//   comparisonResetButton.addEventListener("click", () => {
+//     comparisonViewers.forEach(resetComparisonViewerCamera);
+//   });
+// }

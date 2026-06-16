@@ -1,0 +1,14 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="720" rx="28" fill="#FBF8F2"/>
+  <rect x="28" y="28" width="598" height="664" rx="20" fill="#ECE1D4"/>
+  <rect x="654" y="28" width="598" height="664" rx="20" fill="#E5EDF2"/>
+  <circle cx="326" cy="260" r="130" fill="#C7AE95"/>
+  <circle cx="954" cy="260" r="130" fill="#C96F3B"/>
+  <rect x="162" y="436" width="328" height="24" rx="12" fill="#CBB79F"/>
+  <rect x="790" y="436" width="328" height="24" rx="12" fill="#D58C5E"/>
+  <rect x="196" y="488" width="260" height="18" rx="9" fill="#DCCBBC"/>
+  <rect x="824" y="488" width="260" height="18" rx="9" fill="#E7B18D"/>
+  <text x="78" y="84" fill="#856A53" font-family="Arial, sans-serif" font-size="28" font-weight="700">Baseline</text>
+  <text x="708" y="84" fill="#A3552A" font-family="Arial, sans-serif" font-size="28" font-weight="700">tag3r</text>
+</svg>
+

@@ -1,0 +1,8 @@
+<svg width="720" height="520" viewBox="0 0 720 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="520" rx="28" fill="#FAF6EE"/>
+  <rect x="42" y="42" width="636" height="436" rx="22" fill="#EFE4D7"/>
+  <circle cx="248" cy="228" r="118" fill="#D78755"/>
+  <path d="M344 168L524 144L564 356L386 382L344 168Z" fill="#7A98AC"/>
+  <text x="58" y="458" fill="#8B7059" font-family="Arial, sans-serif" font-size="28" font-weight="700">Result placeholder A</text>
+</svg>
+

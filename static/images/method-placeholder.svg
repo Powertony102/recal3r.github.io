@@ -1,0 +1,22 @@
+<svg width="1400" height="840" viewBox="0 0 1400 840" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="840" rx="36" fill="#FCF8F0"/>
+  <rect x="64" y="116" width="280" height="560" rx="32" fill="#F1E3D5"/>
+  <rect x="560" y="116" width="280" height="560" rx="32" fill="#E7EEF2"/>
+  <rect x="1056" y="116" width="280" height="560" rx="32" fill="#F7E8D8"/>
+  <rect x="138" y="206" width="132" height="132" rx="26" fill="#C96F3B"/>
+  <rect x="634" y="206" width="132" height="132" rx="26" fill="#7C9BAF"/>
+  <rect x="1130" y="206" width="132" height="132" rx="26" fill="#D98856"/>
+  <rect x="120" y="394" width="168" height="20" rx="10" fill="#CEB59A"/>
+  <rect x="616" y="394" width="168" height="20" rx="10" fill="#B9CBD7"/>
+  <rect x="1112" y="394" width="168" height="20" rx="10" fill="#E2C7AD"/>
+  <rect x="120" y="446" width="168" height="20" rx="10" fill="#CEB59A"/>
+  <rect x="616" y="446" width="168" height="20" rx="10" fill="#B9CBD7"/>
+  <rect x="1112" y="446" width="168" height="20" rx="10" fill="#E2C7AD"/>
+  <path d="M376 394H528" stroke="#C96F3B" stroke-width="10" stroke-linecap="round"/>
+  <path d="M872 394H1024" stroke="#C96F3B" stroke-width="10" stroke-linecap="round"/>
+  <path d="M490 354L528 394L490 434" stroke="#C96F3B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M986 354L1024 394L986 434" stroke="#C96F3B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="106" y="84" fill="#8F6F54" font-family="Arial, sans-serif" font-size="34" font-weight="700">Method diagram placeholder</text>
+  <text x="106" y="742" fill="#A1866C" font-family="Arial, sans-serif" font-size="26">Use one wide figure with left-to-right flow so the web layout stays clean.</text>
+</svg>
+

@@ -1,0 +1,9 @@
+<svg width="720" height="520" viewBox="0 0 720 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="520" rx="28" fill="#FAF6EE"/>
+  <rect x="42" y="42" width="636" height="436" rx="22" fill="#E6EEF3"/>
+  <path d="M120 326C120 251.441 180.441 191 255 191H466C540.559 191 601 251.441 601 326V370H120V326Z" fill="#7C9BAF"/>
+  <rect x="170" y="112" width="112" height="112" rx="22" fill="#C96F3B"/>
+  <rect x="430" y="112" width="112" height="112" rx="22" fill="#D9B28E"/>
+  <text x="58" y="458" fill="#6A7F8C" font-family="Arial, sans-serif" font-size="28" font-weight="700">Result placeholder B</text>
+</svg>
+

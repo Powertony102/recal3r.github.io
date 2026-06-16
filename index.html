@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TAG3R | Project Page</title>
+    <meta
+      name="description"
+      content="TAG3R: Trust-Aware Adaptive Gating for Streaming 3D Reconstruction."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <script>
+      document.documentElement.classList.add("js-enabled");
+    </script>
+    <link rel="icon" type="image/png" sizes="128x128" href="static/images/favicon.png" />
+    <link rel="stylesheet" href="static/css/style.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top">TAG3R</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+        >
+          Menu
+        </button>
+        <nav id="site-nav" class="site-nav" aria-label="Primary">
+          <a href="#abstract">Abstract</a>
+          <a href="#method">Method</a>
+          <a href="#results">Benchmarks</a>
+          <a href="#visualization">Visualization</a>
+          <!-- <a href="#comparison">Qualitative</a> -->
+          <a href="#bibtex">BibTeX</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero section">
+          <div class="hero-copy reveal">
+            <div class="hero-wordmark" aria-hidden="true">
+              <img src="assets/logo/tag3r-wordmark.png" alt="" />
+            </div>
+            <h1>TAG3R: Trust-Aware Adaptive Gating for Streaming 3D Reconstruction</h1>
+            <div class="authors centered">
+              <span>Xinze Li<sup>1</sup></span>
+              <span>Wentao Cheng<sup>1</sup></span>
+            </div>
+            <p class="affiliations centered">
+              <sup>1</sup>Beijing Normal-Hong Kong Baptist University
+            </p>
+            <p class="hero-note">Training-free trust-aware state writing for long-horizon streaming 3D reconstruction</p>
+
+            <div class="hero-actions centered">
+              <a class="button primary" href="TAG3R_Paper/iclr2026_conference.pdf">Paper</a>
+              <a class="button" href="#results">Results</a>
+              <a class="button" href="#bibtex">BibTeX</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-wide teaser-section reveal" aria-label="Project summary">
+          <figure class="teaser-panel">
+            <img
+              src="static/images/tag3r-teaser-hq-1.png"
+              alt="TAG3R overview and qualitative comparison against CUT3R"
+            />
+            <figcaption>
+              TAG3R decouples <em>whether</em> a state token should be updated from
+              <em>how strongly</em> it should be updated. An introspective trust gate
+              diagnoses token reliability, while a coherence rate regulates
+              observation-driven writing. This separation reduces harmful
+              overwrites and yields cleaner long-horizon reconstructions than CUT3R.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section id="abstract" class="section reveal">
+          <div class="section-heading">
+            <h2>Abstract</h2>
+          </div>
+          <div class="prose-card">
+            <p>
+              Streaming 3D reconstruction must absorb unbounded image streams into a
+              compact scene state with constant memory and per-frame cost. Existing
+              recurrent methods make this setting practical, but their state updates
+              become increasingly fragile over long horizons: the model may still
+              write aggressively even when the receiving state token has already
+              drifted away from a reliable geometric representation. TAG3R addresses
+              this failure mode by decoupling whether a token should accept new
+              evidence from how strongly the current observation should update it.
+              The method derives token trust from the maintained state and combines
+              it with an observation-driven coherence rate, enabling conservative
+              fallback updates for degraded tokens while preserving plasticity for
+              informative frames. Plugged into CUT3R without training or additional
+              learnable parameters, TAG3R substantially improves long-horizon
+              generalization across pose, depth, and reconstruction, including a
+              3.7× reduction in ATE on 1,000-frame ScanNet sequences.
+            </p>
+          </div>
+        </section>
+
+        <section id="method" class="section section-wide reveal">
+          <div class="section-heading">
+            <h2>Method</h2>
+          </div>
+
+          <div class="method-layout">
+            <div class="stack method-highlights">
+              <article class="info-card">
+                <h3>State-Side Diagnosis</h3>
+                <p>
+                  TAG3R first evaluates whether a state token remains a dependable
+                  carrier of historical geometry. The trust score is estimated from
+                  state drift and attention entropy, which together capture token
+                  degradation and observation ambiguity.
+                </p>
+              </article>
+              <article class="info-card">
+                <h3>Observation-Side Update Rate</h3>
+                <p>
+                  The coherence branch determines how strongly the current frame
+                  should write into the state. It combines alignment, frame novelty,
+                  and per-token fatigue so that redundant frames and saturated slots
+                  are naturally suppressed.
+                </p>
+              </article>
+              <article class="info-card">
+                <h3>Decoupled State Writing</h3>
+                <p>
+                  Trust answers whether a token should be updated; coherence answers
+                  how much it should change. Their fusion preserves constant-memory
+                  streaming while reducing drift accumulation over long sequences,
+                  with no retraining and no extra learnable parameters.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="results" class="section section-wide reveal">
+          <div class="section-heading">
+            <h2>Benchmark Results</h2>
+            <p class="section-intro">
+              TAG3R delivers consistent gains across camera pose estimation, video
+              depth estimation, and multi-view reconstruction, with the largest
+              improvements appearing in the long-sequence regime.
+            </p>
+          </div>
+
+          <div class="benchmark-stack">
+            <article class="result-card benchmark-card">
+              <div class="benchmark-copy">
+                <h3>Camera Pose Estimation</h3>
+                <p>
+                  On ScanNet and TUM-D, TAG3R maintains substantially lower ATE as the
+                  stream length increases, showing stronger resistance to long-horizon
+                  trajectory drift than CUT3R, TTT3R, MeMix, and TTSA3R.
+                </p>
+              </div>
+              <figure class="benchmark-visual">
+                <img
+                  src="TAG3R_Paper/section/fig/quant/relpose_combined_scannet_tum.png"
+                  alt="Camera pose estimation results on ScanNet and TUM-D"
+                />
+              </figure>
+            </article>
+
+            <article class="result-card benchmark-card">
+              <div class="benchmark-copy">
+                <h3>Video Depth Estimation</h3>
+                <p>
+                  The trust-aware update rule improves both Abs Rel and
+                  <span>&delta; &lt; 1.25</span> over longer streams, indicating that
+                  state reliability is also critical for stable depth accumulation.
+                </p>
+              </div>
+              <figure class="benchmark-visual">
+                <img
+                  src="TAG3R_Paper/section/fig/quant/depth_combined_bonn_tum.png"
+                  alt="Video depth estimation results on Bonn and TUM-D"
+                />
+              </figure>
+            </article>
+
+            <article class="result-card benchmark-card">
+              <div class="benchmark-copy">
+                <h3>Multi-View Reconstruction</h3>
+                <p>
+                  Across 7-Scenes and NRGBD, TAG3R preserves reconstruction quality
+                  more consistently as more observations are accumulated, reducing the
+                  structural degradation caused by unreliable recurrent writes.
+                </p>
+              </div>
+              <figure class="benchmark-visual">
+                <img
+                  src="TAG3R_Paper/section/fig/quant/mv_recon_combined_recon7_nrgbd.png"
+                  alt="Multi-view reconstruction results on 7-Scenes and NRGBD"
+                />
+              </figure>
+            </article>
+          </div>
+        </section>
+
+        <section id="visualization" class="section section-wide reveal">
+          <div class="section-heading">
+            <h2>Qualitative Visualization</h2>
+            <p class="section-intro">
+              Click an RGB thumbnail below to load its corresponding 3D
+              reconstruction. Drag to orbit, scroll to zoom, and inspect the scene
+              geometry interactively in the browser.
+            </p>
+          </div>
+
+          <div class="visualization-gallery">
+            <div class="visualization-stage">
+              <model-viewer
+                id="qualitative-viewer"
+                class="qualitative-viewer"
+                src=""
+                alt="Interactive 3D reconstruction visualized from a GLB scene."
+                loading="lazy"
+                camera-controls
+                touch-action="pan-y"
+                disable-tap
+                interaction-prompt="none"
+                camera-orbit="180deg 70deg auto"
+                field-of-view="32deg"
+                zoom-sensitivity="0.2"
+                min-camera-orbit="auto auto 1m"
+                max-camera-orbit="auto auto 10m"
+                shadow-intensity="0"
+                disable-shadow
+                exposure="1"
+                environment-image="legacy"
+              >
+              </model-viewer>
+              <div class="visualization-toolbar">
+                <div class="visualization-copy">
+                  <p class="visualization-eyebrow">Selected Sequence</p>
+                  <h3 id="visualization-title"></h3>
+                  <p id="visualization-file" class="visualization-file"></p>
+                </div>
+                <div class="visualization-tips" aria-label="Viewer controls">
+                  <span>Drag: Orbit</span>
+                  <span>Scroll: Zoom</span>
+                  <span>Shift + Drag: Pan</span>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="visualization-thumbnails"
+              class="visualization-thumbnails"
+              role="list"
+              aria-label="RGB thumbnails for qualitative visualization"
+            ></div>
+          </div>
+        </section>
+
+        <!-- <section id="comparison" class="section section-wide reveal">
+          <div class="section-heading">
+            <h2>Qualitative Comparison</h2>
+            <p class="section-intro">
+              Qualitative results on representative 7-Scenes and NRGBD examples show
+              that TAG3R better preserves geometry coherence and surface structure
+              under long-horizon streaming.
+            </p>
+          </div>
+
+          <div class="interactive-comparison" aria-label="Interactive qualitative comparison">
+            <div class="comparison-controlbar">
+              <div>
+                <p class="comparison-eyebrow">Interactive Reconstruction</p>
+                <h3 id="comparison-scene-title">Kitchen</h3>
+              </div>
+              <div class="comparison-actions">
+                <label class="comparison-sync">
+                  <input id="comparison-sync" type="checkbox" checked />
+                  <span>Sync Views</span>
+                </label>
+                <button id="comparison-reset" class="button" type="button">Reset View</button>
+              </div>
+            </div>
+
+            <div
+              id="comparison-viewers"
+              class="comparison-viewers"
+              aria-live="polite"
+            ></div>
+
+            <div
+              id="comparison-scenes"
+              class="comparison-scenes"
+              role="list"
+              aria-label="Comparison scenes"
+            ></div>
+          </div>
+
+          <div class="comparison-grid">
+            <article class="comparison-card comparison-figure-card">
+              <div class="comparison-labels">
+                <span>Streaming baselines</span>
+                <span>TAG3R</span>
+              </div>
+              <img
+                src="static/images/tag3r-qualitative-hq-1.png"
+                alt="Qualitative 3D reconstruction comparison between TAG3R and prior methods"
+              />
+              <p>
+                Compared with prior recurrent baselines, TAG3R reduces structural
+                distortion, suppresses noisy geometry, and retains more coherent
+                scene layouts after long streaming updates.
+              </p>
+            </article>
+
+            <article class="comparison-note">
+              <h3>Key Takeaways</h3>
+              <ul>
+                <li>Decouple token trust from update magnitude instead of using a single observation-driven gate.</li>
+                <li>Improve long-horizon stability without modifying the recurrent backbone or adding parameters.</li>
+                <li>Achieve strong gains across pose, depth, and reconstruction while keeping constant-memory streaming.</li>
+              </ul>
+            </article>
+          </div>
+        </section> -->
+
+        <section id="bibtex" class="section reveal">
+          <div class="section-heading">
+            <h2>BibTeX</h2>
+          </div>
+          <div class="bibtex-card">
+            <button class="copy-button" type="button" data-copy-target="bibtex-block">
+              Copy
+            </button>
+            <pre id="bibtex-block"><code>@article{li2026tag3r,
+  title   = {TAG3R: Trust-Aware Adaptive Gating for Streaming 3D Reconstruction},
+  author  = {Li, Xinze and Cheng, Wentao},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="section reveal">
+          <div class="section-heading">
+            <h2>Contact</h2>
+          </div>
+          <div class="prose-card">
+            <p>
+              For questions about the paper, please contact Wentao Cheng:
+              <a href="mailto:wentaocheng@bnbu.edu.cn">wentaocheng@bnbu.edu.cn</a>.
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>
+          TAG3R project page. Last updated <span id="current-year"></span>.
+        </p>
+      </footer>
+    </div>
+
+    <script src="static/js/app.js?v=20260616j"></script>
+  </body>
+</html>
