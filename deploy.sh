@@ -51,6 +51,12 @@ else
     log_info "Nginx 已安装，跳过安装步骤。"
 fi
 
+# 处理宝塔面板生成的不可变 .user.ini 文件
+if [[ -f "${WEB_ROOT}/.user.ini" ]]; then
+    log_info "移除 .user.ini 的不可变属性..."
+    chattr -i "${WEB_ROOT}/.user.ini" 2>/dev/null || true
+fi
+
 # 设置权限
 log_info "设置文件权限..."
 chown -R www:www "${WEB_ROOT}" 2>/dev/null || chown -R www-data:www-data "${WEB_ROOT}"
