@@ -136,7 +136,7 @@ function setActiveVisualization(item, triggerButton, loadModel = true) {
   }
 }
 
-function setActiveSequenceVideo(item, triggerButton) {
+function setActiveSequenceVideo(item, triggerButton, scrollIntoView = true) {
   if (!sequenceVideo) {
     return;
   }
@@ -174,7 +174,7 @@ function setActiveSequenceVideo(item, triggerButton) {
       });
   }
 
-  if (triggerButton && typeof triggerButton.scrollIntoView === "function") {
+  if (scrollIntoView && triggerButton && typeof triggerButton.scrollIntoView === "function") {
     triggerButton.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
@@ -447,7 +447,7 @@ function renderSequenceVideoGallery() {
     sequenceVideoThumbContainer.appendChild(button);
 
     if (index === 0) {
-      setActiveSequenceVideo(item, button);
+      setActiveSequenceVideo(item, button, false);
     }
   });
 }
