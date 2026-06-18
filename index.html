@@ -39,7 +39,7 @@
         <nav id="site-nav" class="site-nav" aria-label="Primary">
           <a href="#abstract">Abstract</a>
           <a href="#method">Method</a>
-          <a href="#results">Benchmarks</a>
+          <a href="#results">Efficiency</a>
           <a href="#length-results">Sequences</a>
           <a href="#visualization">Visualization</a>
           <!-- <a href="#comparison">Qualitative</a> -->
@@ -227,66 +227,23 @@
 
         <section id="results" class="section section-wide reveal">
           <div class="section-heading">
-            <h2>Benchmark Results</h2>
+            <h2>Long-Horizon Accuracy and Efficiency</h2>
             <p class="section-intro">
-              TAG3R delivers consistent gains across camera pose estimation, video
-              depth estimation, and multi-view reconstruction, with the largest
-              improvements appearing in the long-sequence regime.
+              On 1,000-frame ScanNet sequences, TAG3R achieves the lowest ATE
+              (0.211), a 3.7&times; reduction over CUT3R, while retaining practical
+              throughput (19.9 FPS) and CUT3R-level GPU memory (6.1 GB). These
+              results show that trust-aware state updates substantially improve
+              long-horizon accuracy without sacrificing the bounded-memory
+              streaming design.
             </p>
           </div>
 
-          <div class="benchmark-stack">
-            <article class="result-card benchmark-card">
-              <div class="benchmark-copy">
-                <h3>Camera Pose Estimation</h3>
-                <p>
-                  On ScanNet and TUM-D, TAG3R maintains substantially lower ATE as the
-                  stream length increases, showing stronger resistance to long-horizon
-                  trajectory drift than CUT3R, TTT3R, MeMix, and TTSA3R.
-                </p>
-              </div>
-              <figure class="benchmark-visual">
-                <img
-                  src="TAG3R_Paper/section/fig/quant/relpose_combined_scannet_tum.png"
-                  alt="Camera pose estimation results on ScanNet and TUM-D"
-                />
-              </figure>
-            </article>
-
-            <article class="result-card benchmark-card">
-              <div class="benchmark-copy">
-                <h3>Video Depth Estimation</h3>
-                <p>
-                  The trust-aware update rule improves both Abs Rel and
-                  <span>&delta; &lt; 1.25</span> over longer streams, indicating that
-                  state reliability is also critical for stable depth accumulation.
-                </p>
-              </div>
-              <figure class="benchmark-visual">
-                <img
-                  src="TAG3R_Paper/section/fig/quant/depth_combined_bonn_tum.png"
-                  alt="Video depth estimation results on Bonn and TUM-D"
-                />
-              </figure>
-            </article>
-
-            <article class="result-card benchmark-card">
-              <div class="benchmark-copy">
-                <h3>Multi-View Reconstruction</h3>
-                <p>
-                  Across 7-Scenes and NRGBD, TAG3R preserves reconstruction quality
-                  more consistently as more observations are accumulated, reducing the
-                  structural degradation caused by unreliable recurrent writes.
-                </p>
-              </div>
-              <figure class="benchmark-visual">
-                <img
-                  src="TAG3R_Paper/section/fig/quant/mv_recon_combined_recon7_nrgbd.png"
-                  alt="Multi-view reconstruction results on 7-Scenes and NRGBD"
-                />
-              </figure>
-            </article>
-          </div>
+          <figure class="result-card benchmark-visual">
+            <img
+              src="assets/results/scannet1000_ate_fps_mem_bars.png"
+              alt="ATE, FPS, and GPU memory comparison on 1,000-frame ScanNet sequences"
+            />
+          </figure>
         </section>
 
         <section id="visualization" class="section section-wide reveal">
