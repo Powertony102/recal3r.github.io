@@ -95,18 +95,26 @@
               <span class="teaser-lightning" aria-hidden="true">⚡</span>
               <span class="teaser-highlight">constant memory, no retraining</span>
             </div>
-            <video
-              class="teaser-video"
-              autoplay
-              muted
-              loop
-              playsinline
-              poster="assets/teaser/france_cover.webp"
-              aria-label="TAG3R streaming 3D reconstruction teaser video"
-            >
-              <source src="assets/teaser/teaser_france.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <div class="video-load-frame">
+              <div
+                class="video-load-progress"
+                role="progressbar"
+                aria-label="Loading teaser video"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              ><span></span></div>
+              <video
+                class="teaser-video"
+                autoplay
+                muted
+                loop
+                playsinline
+                aria-label="TAG3R streaming 3D reconstruction teaser video"
+              >
+                <source src="assets/teaser/teaser_france.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
           </div>
         </section>
 
@@ -146,17 +154,26 @@
 
           <div class="visualization-gallery">
             <div class="visualization-stage">
-              <video
-                id="sequence-video"
-                class="sequence-video-player"
-                autoplay
-                muted
-                loop
-                playsinline
-                aria-label="Visualization result video"
-              >
-                Your browser does not support the video tag.
-              </video>
+              <div class="video-load-frame">
+                <div
+                  class="video-load-progress"
+                  role="progressbar"
+                  aria-label="Loading visualization video"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ><span></span></div>
+                <video
+                  id="sequence-video"
+                  class="sequence-video-player"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  aria-label="Visualization result video"
+                >
+                  Your browser does not support the video tag.
+                </video>
+              </div>
               <div class="visualization-toolbar">
                 <div class="visualization-copy">
                   
@@ -418,6 +435,6 @@
       </footer>
     </div>
 
-    <script src="static/js/app.js?v=20260616j"></script>
+    <script src="static/js/app.js?v=20260619a"></script>
   </body>
 </html>

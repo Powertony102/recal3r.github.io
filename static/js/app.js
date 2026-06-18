@@ -7,6 +7,7 @@ const qualitativeViewer = document.querySelector("#qualitative-viewer");
 const visualizationTitle = document.querySelector("#visualization-title");
 const visualizationThumbContainer = document.querySelector("#visualization-thumbnails");
 const sequenceVideo = document.querySelector("#sequence-video");
+const pageVideos = document.querySelectorAll("video");
 const sequenceVideoTitle = document.querySelector("#sequence-video-title");
 const sequenceVideoThumbContainer = document.querySelector("#sequence-video-thumbnails");
 const comparisonSceneTitle = document.querySelector("#comparison-scene-title");
@@ -101,6 +102,62 @@ const comparisonScenes = [
 ];
 let comparisonViewers = [];
 let isSyncingComparisonCamera = false;
+
+function bindVideoLoadingProgress(video) {
+  const progress = video.closest(".video-load-frame")?.querySelector(".video-load-progress");
+  const bar = progress?.querySelector("span");
+
+  if (!progress || !bar) {
+    return;
+  }
+
+  let isLoading = false;
+
+  const showLoading = () => {
+    isLoading = true;
+    progress.classList.add("is-loading", "is-indeterminate");
+    progress.removeAttribute("aria-valuenow");
+    bar.style.removeProperty("transform");
+  };
+
+  const updateBufferedProgress = () => {
+    if (
+      !isLoading ||
+      !Number.isFinite(video.duration) ||
+      video.duration <= 0 ||
+      video.buffered.length === 0
+    ) {
+      return;
+    }
+
+    const percent = Math.min(100, (video.buffered.end(video.buffered.length - 1) / video.duration) * 100);
+    progress.classList.add("is-loading");
+    progress.classList.remove("is-indeterminate");
+    progress.setAttribute("aria-valuenow", String(Math.round(percent)));
+    bar.style.transform = `scaleX(${percent / 100})`;
+  };
+
+  const hideLoading = () => {
+    isLoading = false;
+    progress.classList.remove("is-loading", "is-indeterminate");
+    progress.setAttribute("aria-valuenow", "100");
+    bar.style.transform = "scaleX(1)";
+  };
+
+  video.addEventListener("loadstart", showLoading);
+  video.addEventListener("waiting", showLoading);
+  video.addEventListener("stalled", showLoading);
+  video.addEventListener("progress", updateBufferedProgress);
+  video.addEventListener("canplay", hideLoading);
+  video.addEventListener("playing", hideLoading);
+  video.addEventListener("error", hideLoading);
+
+  if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+    hideLoading();
+  } else {
+    showLoading();
+  }
+}
 
 function setActiveVisualization(item, triggerButton, loadModel = true) {
   if (!qualitativeViewer) {
@@ -512,6 +569,7 @@ if (currentYear) {
   currentYear.textContent = String(new Date().getFullYear());
 }
 
+pageVideos.forEach(bindVideoLoadingProgress);
 renderVisualizationGallery();
 renderSequenceVideoGallery();
 // renderComparisonGallery();
