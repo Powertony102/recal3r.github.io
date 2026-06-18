@@ -4,8 +4,6 @@ set -euo pipefail
 # 部署配置
 DOMAIN="demo.tony102.com"
 WEB_ROOT="/www/wwwroot/${DOMAIN}"
-REPO_URL="https://github.com/Powertony102/tag3r.github.io.git"
-BRANCH="main"
 PORT="7561"  # 仅在使用反向代理模式时需要
 
 # 颜色输出
@@ -24,31 +22,33 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# 安装基础依赖（git、nginx）
-log_info "安装基础依赖..."
-if command -v apt-get &> /dev/null; then
-    apt-get update -qq
-    apt-get install -y -qq git nginx curl
-elif command -v yum &> /dev/null; then
-    yum install -y git nginx curl
-else
-    log_warn "无法自动安装依赖，请手动安装 git 和 nginx"
+# 检查网站目录是否存在
+if [[ ! -d "${WEB_ROOT}" ]]; then
+    log_error "网站目录不存在: ${WEB_ROOT}"
+    echo "请先创建该目录并放入项目文件，再运行此脚本。"
+    exit 1
 fi
 
-# 创建网站目录
-log_info "创建网站目录: ${WEB_ROOT}"
-mkdir -p "${WEB_ROOT}"
+# 检查 index.html 是否存在
+if [[ ! -f "${WEB_ROOT}/index.html" ]]; then
+    log_warn "未在 ${WEB_ROOT} 找到 index.html，请确认网站文件已正确放置。"
+fi
 
-# 克隆/更新代码
-if [[ -d "${WEB_ROOT}/.git" ]]; then
-    log_info "更新已有代码..."
-    cd "${WEB_ROOT}"
-    git fetch origin
-    git reset --hard "origin/${BRANCH}"
+# 安装 nginx（如果未安装）
+log_info "检查并安装 Nginx..."
+export DEBIAN_FRONTEND=noninteractive
+if ! command -v nginx &> /dev/null; then
+    if command -v apt-get &> /dev/null; then
+        apt-get update -qq
+        apt-get install -y -qq -o Dpkg::Options::="--force-confnew" nginx curl
+    elif command -v yum &> /dev/null; then
+        yum install -y nginx curl
+    else
+        log_error "无法自动安装 Nginx，请手动安装后再试。"
+        exit 1
+    fi
 else
-    log_info "从 GitHub 拉取代码..."
-    rm -rf "${WEB_ROOT}"
-    git clone --depth 1 -b "${BRANCH}" "${REPO_URL}" "${WEB_ROOT}"
+    log_info "Nginx 已安装，跳过安装步骤。"
 fi
 
 # 设置权限
@@ -98,15 +98,14 @@ else
     nginx -s reload
 fi
 
-log_info "部署完成！"
+log_info "配置完成！"
 echo ""
 echo "=================================================="
-echo "网站已部署到: ${WEB_ROOT}"
+echo "网站目录: ${WEB_ROOT}"
 echo "访问地址: http://${DOMAIN}"
 echo "=================================================="
 echo ""
 echo "提示："
 echo "1. 请在 DNS 解析中将 ${DOMAIN} 指向本服务器 IP。"
 echo "2. 如需 HTTPS，建议使用 certbot 或宝塔面板申请 SSL 证书。"
-echo "3. 若使用宝塔面板，可跳过本脚本中的 Nginx 配置步骤，"
-echo "   直接在宝塔中创建站点并指定网站目录为 ${WEB_ROOT}。"
+echo "3. 此脚本不会修改或删除 ${WEB_ROOT} 中的任何文件。"
