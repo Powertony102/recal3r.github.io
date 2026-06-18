@@ -96,12 +96,20 @@ chmod -R 755 "${WEB_ROOT}"
 # 生成 Nginx 配置（直接静态文件服务）
 NGINX_CONF="${NGINX_CONF_DIR}/${DOMAIN}.conf"
 log_info "写入 Nginx 配置文件: ${NGINX_CONF}"
+
+# 宝塔面板需要这个标记来定位 SSL 配置插入位置
+BT_SSL_MARKER=""
+if [[ "${IS_BT_PANEL}" == "true" ]]; then
+    BT_SSL_MARKER="    #error_page 404/404.html;"
+fi
+
 cat > "${NGINX_CONF}" <<EOF
 server {
     listen 80;
     server_name ${DOMAIN};
     root ${WEB_ROOT};
     index index.html;
+${BT_SSL_MARKER}
 
     # 静态资源缓存
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|webp|woff|woff2|ttf|eot|otf|mp4|webm|glb|gltf)$ {
