@@ -6,7 +6,7 @@ DOMAIN="demo.tony102.com"
 WEB_ROOT="/www/wwwroot/${DOMAIN}"
 REPO_URL="https://github.com/Powertony102/tag3r.github.io.git"
 BRANCH="main"
-PORT="8080"  # 仅在使用反向代理模式时需要
+PORT="7561"  # 仅在使用反向代理模式时需要
 
 # 颜色输出
 RED='\033[0;31m'
