@@ -34,10 +34,32 @@ if [[ ! -f "${WEB_ROOT}/index.html" ]]; then
     log_warn "未在 ${WEB_ROOT} 找到 index.html，请确认网站文件已正确放置。"
 fi
 
-# 安装 nginx（如果未安装）
-log_info "检查并安装 Nginx..."
-export DEBIAN_FRONTEND=noninteractive
-if ! command -v nginx &> /dev/null; then
+# 检测宝塔面板
+IS_BT_PANEL=false
+NGINX_BIN=""
+NGINX_CONF_DIR=""
+NGINX_CONF_TEST_CMD=""
+NGINX_RELOAD_CMD=""
+
+if [[ -x "/www/server/nginx/sbin/nginx" ]]; then
+    IS_BT_PANEL=true
+    NGINX_BIN="/www/server/nginx/sbin/nginx"
+    NGINX_CONF_DIR="/www/server/panel/vhost/nginx"
+    NGINX_CONF_TEST_CMD="${NGINX_BIN} -t"
+    NGINX_RELOAD_CMD="${NGINX_BIN} -s reload"
+    log_info "检测到宝塔面板，使用宝塔 Nginx 配置..."
+else
+    NGINX_BIN="nginx"
+    NGINX_CONF_DIR="/etc/nginx/conf.d"
+    NGINX_CONF_TEST_CMD="nginx -t"
+    NGINX_RELOAD_CMD="nginx -s reload"
+    log_info "未检测到宝塔面板，使用系统 Nginx..."
+fi
+
+# 安装 nginx（如果未安装且非宝塔环境）
+if [[ "${IS_BT_PANEL}" != "true" ]] && ! command -v nginx &> /dev/null; then
+    log_info "检查并安装 Nginx..."
+    export DEBIAN_FRONTEND=noninteractive
     if command -v apt-get &> /dev/null; then
         apt-get update -qq
         apt-get install -y -qq -o Dpkg::Options::="--force-confnew" nginx curl
@@ -47,8 +69,10 @@ if ! command -v nginx &> /dev/null; then
         log_error "无法自动安装 Nginx，请手动安装后再试。"
         exit 1
     fi
+elif [[ "${IS_BT_PANEL}" == "true" ]]; then
+    log_info "宝塔 Nginx 已存在，跳过安装步骤。"
 else
-    log_info "Nginx 已安装，跳过安装步骤。"
+    log_info "系统 Nginx 已安装，跳过安装步骤。"
 fi
 
 # 处理宝塔面板生成的不可变 .user.ini 文件
@@ -63,7 +87,7 @@ chown -R www:www "${WEB_ROOT}" 2>/dev/null || chown -R www-data:www-data "${WEB_
 chmod -R 755 "${WEB_ROOT}"
 
 # 生成 Nginx 配置（直接静态文件服务）
-NGINX_CONF="/etc/nginx/conf.d/${DOMAIN}.conf"
+NGINX_CONF="${NGINX_CONF_DIR}/${DOMAIN}.conf"
 log_info "写入 Nginx 配置文件: ${NGINX_CONF}"
 cat > "${NGINX_CONF}" <<EOF
 server {
@@ -95,14 +119,10 @@ EOF
 
 # 测试并重载 Nginx
 log_info "测试 Nginx 配置..."
-nginx -t
+${NGINX_CONF_TEST_CMD}
 
 log_info "重载 Nginx..."
-if command -v systemctl &> /dev/null; then
-    systemctl reload nginx
-else
-    nginx -s reload
-fi
+${NGINX_RELOAD_CMD}
 
 log_info "配置完成！"
 echo ""
