@@ -48,6 +48,13 @@ if [[ -x "/www/server/nginx/sbin/nginx" ]]; then
     NGINX_CONF_TEST_CMD="${NGINX_BIN} -t"
     NGINX_RELOAD_CMD="${NGINX_BIN} -s reload"
     log_info "检测到宝塔面板，使用宝塔 Nginx 配置..."
+
+    # 清理之前可能写入的系统 Nginx 配置，避免冲突
+    SYSTEM_NGINX_CONF="/etc/nginx/conf.d/${DOMAIN}.conf"
+    if [[ -f "${SYSTEM_NGINX_CONF}" ]]; then
+        log_warn "发现系统 Nginx 配置文件，为避免冲突，已移除: ${SYSTEM_NGINX_CONF}"
+        rm -f "${SYSTEM_NGINX_CONF}"
+    fi
 else
     NGINX_BIN="nginx"
     NGINX_CONF_DIR="/etc/nginx/conf.d"
