@@ -18,19 +18,19 @@ const visualizationItems = [
   {
     id: "dl3dv_5c3a",
     title: "DL3DV 5C3A",
-    imageSrc: "assets/glb/dl3dv_5c3a/dl3dv_5c3a.png",
+    imageSrc: "assets/glb/dl3dv_5c3a/dl3dv_5c3a.webp",
     modelSrc: "assets/glb/dl3dv_5c3a/dl3dv_5c3a.glb",
   },
   {
     id: "dl3dv_5f00",
     title: "DL3DV 5F00",
-    imageSrc: "assets/glb/dl3dv_5f00/dl3dv_5f00.png",
+    imageSrc: "assets/glb/dl3dv_5f00/dl3dv_5f00.webp",
     modelSrc: "assets/glb/dl3dv_5f00/dl3dv_5f00.glb",
   },
   {
     id: "whiteroom",
     title: "White Room",
-    imageSrc: "assets/glb/whiteroom/whiteroom.png",
+    imageSrc: "assets/glb/whiteroom/whiteroom.webp",
     modelSrc: "assets/glb/whiteroom/whiteroom.glb",
   },
 ];
@@ -38,37 +38,37 @@ const sequenceVideoItems = [
   {
     id: "nagoya",
     title: "Nagoya",
-    imageSrc: "assets/videos/nagoya/nagoya_cover.png",
+    imageSrc: "assets/videos/nagoya/nagoya_cover.webp",
     videoSrc: "assets/videos/nagoya/nagoya_tag3r.mp4",
   },
   {
     id: "nippon",
     title: "Nippon",
-    imageSrc: "assets/videos/nippon/nippon_cover.png",
+    imageSrc: "assets/videos/nippon/nippon_cover.webp",
     videoSrc: "assets/videos/nippon/nippon_tag3r.mp4",
   },
   {
     id: "office",
     title: "Office",
-    imageSrc: "assets/videos/office/office_cover.png",
+    imageSrc: "assets/videos/office/office_cover.webp",
     videoSrc: "assets/videos/office/office.mp4",
   },
   {
     id: "davis_rollerblade",
     title: "DAVIS Rollerblade",
-    imageSrc: "assets/videos/DAVIS_rollerblade/rollerblade_cover.png",
+    imageSrc: "assets/videos/DAVIS_rollerblade/rollerblade_cover.webp",
     videoSrc: "assets/videos/DAVIS_rollerblade/DAVIS_rollerblade.mp4",
   },
   {
     id: "davis_stroller",
     title: "DAVIS Stroller",
-    imageSrc: "assets/videos/DAVIS_stroller/stroller_cover.png",
+    imageSrc: "assets/videos/DAVIS_stroller/stroller_cover.webp",
     videoSrc: "assets/videos/DAVIS_stroller/DAVIS_stroller.mp4",
   },
   {
     id: "davis_train",
     title: "DAVIS Train",
-    imageSrc: "assets/videos/DAVIS_train/train_cover.png",
+    imageSrc: "assets/videos/DAVIS_train/train_cover.webp",
     videoSrc: "assets/videos/DAVIS_train/DAVIS_train.mp4",
   },
 ];
@@ -76,7 +76,7 @@ const comparisonScenes = [
   {
     id: "kitchen",
     title: "Kitchen",
-    imageSrc: "assets/comp/kitchen/kitchen.png",
+    imageSrc: "assets/comp/kitchen/kitchen.webp",
     methods: [
       {
         id: "tag3r",

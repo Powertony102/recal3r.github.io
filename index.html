@@ -51,7 +51,13 @@
         <section class="hero section">
           <div class="hero-copy reveal">
             <div class="hero-wordmark" aria-hidden="true">
-              <img src="assets/logo/tag3r-wordmark.png" alt="" />
+              <picture>
+                <source
+                  srcset="assets/logo/tag3r-wordmark.webp"
+                  type="image/webp"
+                />
+                <img src="assets/logo/tag3r-wordmark.png" alt="" />
+              </picture>
             </div>
             <h1>TAG3R: Trust-Aware Adaptive Gating for Streaming 3D Reconstruction</h1>
             <div class="authors centered">
@@ -88,7 +94,7 @@
               muted
               loop
               playsinline
-              poster="assets/teaser/france_cover.png"
+              poster="assets/teaser/france_cover.webp"
               aria-label="TAG3R streaming 3D reconstruction teaser video"
             >
               <source src="assets/teaser/teaser_france.mp4" type="video/mp4" />
@@ -168,10 +174,16 @@
 
           <div class="method-layout">
             <figure class="method-figure teaser-panel">
-              <img
-                src="static/images/tag3r-teaser-hq-1.png"
-                alt="TAG3R overview and qualitative comparison against CUT3R"
-              />
+              <picture>
+                <source
+                  srcset="static/images/tag3r-teaser-hq-1.webp"
+                  type="image/webp"
+                />
+                <img
+                  src="static/images/tag3r-teaser-hq-1.png"
+                  alt="TAG3R overview and qualitative comparison against CUT3R"
+                />
+              </picture>
               <figcaption>
                 TAG3R decouples <em>whether</em> a state token should be updated from
                 <em>how strongly</em> it should be updated. An introspective trust gate
@@ -377,10 +389,16 @@
                 <span>Streaming baselines</span>
                 <span>TAG3R</span>
               </div>
-              <img
-                src="static/images/tag3r-qualitative-hq-1.png"
-                alt="Qualitative 3D reconstruction comparison between TAG3R and prior methods"
-              />
+              <picture>
+                <source
+                  srcset="static/images/tag3r-qualitative-hq-1.webp"
+                  type="image/webp"
+                />
+                <img
+                  src="static/images/tag3r-qualitative-hq-1.png"
+                  alt="Qualitative 3D reconstruction comparison between TAG3R and prior methods"
+                />
+              </picture>
               <p>
                 Compared with prior recurrent baselines, TAG3R reduces structural
                 distortion, suppresses noisy geometry, and retains more coherent
