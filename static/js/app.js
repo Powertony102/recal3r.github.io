@@ -5,8 +5,10 @@ const revealItems = document.querySelectorAll(".reveal");
 const currentYear = document.querySelector("#current-year");
 const qualitativeViewer = document.querySelector("#qualitative-viewer");
 const visualizationTitle = document.querySelector("#visualization-title");
-const visualizationFile = document.querySelector("#visualization-file");
 const visualizationThumbContainer = document.querySelector("#visualization-thumbnails");
+const sequenceVideo = document.querySelector("#sequence-video");
+const sequenceVideoTitle = document.querySelector("#sequence-video-title");
+const sequenceVideoThumbContainer = document.querySelector("#sequence-video-thumbnails");
 const comparisonSceneTitle = document.querySelector("#comparison-scene-title");
 const comparisonViewerContainer = document.querySelector("#comparison-viewers");
 const comparisonSceneContainer = document.querySelector("#comparison-scenes");
@@ -30,6 +32,44 @@ const visualizationItems = [
     title: "White Room",
     imageSrc: "assets/glb/whiteroom/whiteroom.png",
     modelSrc: "assets/glb/whiteroom/whiteroom.glb",
+  },
+];
+const sequenceVideoItems = [
+  {
+    id: "nagoya",
+    title: "Nagoya",
+    imageSrc: "assets/videos/nagoya/nagoya_cover.png",
+    videoSrc: "assets/videos/nagoya/nagoya_tag3r.mp4",
+  },
+  {
+    id: "nippon",
+    title: "Nippon",
+    imageSrc: "assets/videos/nippon/nippon_cover.png",
+    videoSrc: "assets/videos/nippon/nippon_tag3r.mp4",
+  },
+  {
+    id: "office",
+    title: "Office",
+    imageSrc: "assets/videos/office/office_cover.png",
+    videoSrc: "assets/videos/office/office.mp4",
+  },
+  {
+    id: "davis_rollerblade",
+    title: "DAVIS Rollerblade",
+    imageSrc: "assets/videos/DAVIS_rollerblade/rollerblade_cover.png",
+    videoSrc: "assets/videos/DAVIS_rollerblade/DAVIS_rollerblade.mp4",
+  },
+  {
+    id: "davis_stroller",
+    title: "DAVIS Stroller",
+    imageSrc: "assets/videos/DAVIS_stroller/stroller_cover.png",
+    videoSrc: "assets/videos/DAVIS_stroller/DAVIS_stroller.mp4",
+  },
+  {
+    id: "davis_train",
+    title: "DAVIS Train",
+    imageSrc: "assets/videos/DAVIS_train/train_cover.png",
+    videoSrc: "assets/videos/DAVIS_train/DAVIS_train.mp4",
   },
 ];
 const comparisonScenes = [
@@ -85,10 +125,6 @@ function setActiveVisualization(item, triggerButton, loadModel = true) {
     visualizationTitle.textContent = title;
   }
 
-  if (visualizationFile) {
-    visualizationFile.textContent = modelSrc;
-  }
-
   if (visualizationThumbContainer) {
     visualizationThumbContainer
       .querySelectorAll(".visualization-thumb")
@@ -97,6 +133,53 @@ function setActiveVisualization(item, triggerButton, loadModel = true) {
         thumb.classList.toggle("is-active", isActive);
         thumb.setAttribute("aria-pressed", String(isActive));
       });
+  }
+}
+
+function setActiveSequenceVideo(item, triggerButton) {
+  if (!sequenceVideo) {
+    return;
+  }
+
+  sequenceVideo.setAttribute("poster", item.imageSrc);
+
+  if (sequenceVideo.querySelector("source")) {
+    sequenceVideo.querySelector("source").remove();
+  }
+
+  const source = document.createElement("source");
+  source.src = item.videoSrc;
+  source.type = "video/mp4";
+  sequenceVideo.replaceChildren(source);
+  sequenceVideo.load();
+
+  const autoplayPromise = sequenceVideo.play();
+  if (autoplayPromise && typeof autoplayPromise.catch === "function") {
+    autoplayPromise.catch(() => {});
+  }
+
+  sequenceVideo.setAttribute("aria-label", `${item.title} reconstruction video`);
+
+  if (sequenceVideoTitle) {
+    sequenceVideoTitle.textContent = item.title;
+  }
+
+  if (sequenceVideoThumbContainer) {
+    sequenceVideoThumbContainer
+      .querySelectorAll(".visualization-thumb")
+      .forEach((thumb) => {
+        const isActive = thumb === triggerButton;
+        thumb.classList.toggle("is-active", isActive);
+        thumb.setAttribute("aria-pressed", String(isActive));
+      });
+  }
+
+  if (triggerButton && typeof triggerButton.scrollIntoView === "function") {
+    triggerButton.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
   }
 }
 
@@ -329,6 +412,46 @@ function renderVisualizationGallery() {
   });
 }
 
+function renderSequenceVideoGallery() {
+  if (!sequenceVideo || !sequenceVideoThumbContainer) {
+    return;
+  }
+
+  if (sequenceVideoItems.length === 0) {
+    sequenceVideoThumbContainer.textContent = "No sequence videos found in assets/videos/.";
+    return;
+  }
+
+  sequenceVideoThumbContainer.innerHTML = "";
+
+  sequenceVideoItems.forEach((item, index) => {
+    const button = document.createElement("button");
+    const image = document.createElement("img");
+    const label = document.createElement("span");
+
+    button.className = "visualization-thumb";
+    button.type = "button";
+    button.setAttribute("role", "listitem");
+    button.setAttribute("aria-pressed", "false");
+
+    image.src = item.imageSrc;
+    image.alt = `Poster for ${item.title}`;
+
+    label.className = "visualization-thumb-label";
+    label.textContent = item.title;
+
+    button.appendChild(image);
+    button.appendChild(label);
+    button.addEventListener("click", () => setActiveSequenceVideo(item, button));
+
+    sequenceVideoThumbContainer.appendChild(button);
+
+    if (index === 0) {
+      setActiveSequenceVideo(item, button);
+    }
+  });
+}
+
 if (menuToggle && siteNav) {
   menuToggle.addEventListener("click", () => {
     const isOpen = siteNav.classList.toggle("is-open");
@@ -390,6 +513,7 @@ if (currentYear) {
 }
 
 renderVisualizationGallery();
+renderSequenceVideoGallery();
 // renderComparisonGallery();
 
 if (qualitativeViewer) {

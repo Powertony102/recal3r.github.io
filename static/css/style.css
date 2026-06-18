@@ -285,6 +285,58 @@ h3 {
   font-size: 0.96rem;
 }
 
+.teaser-tldr {
+  max-width: 92ch;
+  margin: 0 auto 18px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #2f83d5;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.teaser-video-panel {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.teaser-video-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 16px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+}
+
+.teaser-video-header strong {
+  letter-spacing: -0.02em;
+}
+
+.teaser-lightning {
+  color: #f5b800;
+}
+
+.teaser-highlight {
+  color: #f5b800;
+}
+
+.teaser-video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
 .section-heading {
   margin-bottom: 16px;
 }
@@ -418,6 +470,15 @@ h3 {
   --poster-color: transparent;
 }
 
+.sequence-video-player {
+  width: 100%;
+  height: min(60vh, 520px);
+  min-height: 360px;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  object-fit: contain;
+}
+
 .visualization-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -473,6 +534,41 @@ h3 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 220px));
   gap: 14px;
+}
+
+#sequence-video-thumbnails {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2px 2px 10px;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+#sequence-video-thumbnails .visualization-thumb {
+  flex: 0 0 160px;
+  min-width: 160px;
+  scroll-snap-align: start;
+}
+
+#sequence-video-thumbnails::-webkit-scrollbar {
+  height: 10px;
+}
+
+#sequence-video-thumbnails::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.06);
+  border-radius: 999px;
+}
+
+#sequence-video-thumbnails::-webkit-scrollbar-thumb {
+  background: rgba(47, 131, 213, 0.32);
+  border-radius: 999px;
+}
+
+#sequence-video-thumbnails::-webkit-scrollbar-thumb:hover {
+  background: rgba(47, 131, 213, 0.5);
 }
 
 .visualization-thumb {
@@ -893,12 +989,22 @@ h3 {
     min-height: 340px;
   }
 
+  .sequence-video-player {
+    height: 56vh;
+    min-height: 340px;
+  }
+
   .visualization-toolbar {
     align-items: flex-start;
   }
 
   .visualization-thumbnails {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  #sequence-video-thumbnails .visualization-thumb {
+    flex-basis: 148px;
+    min-width: 148px;
   }
 
   .interactive-comparison {

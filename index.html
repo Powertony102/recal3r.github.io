@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TAG3R | Project Page</title>
+    <title>TAG3R: Trust-Aware Adaptive Gating for Streaming 3D Reconstruction</title>
     <meta
       name="description"
       content="TAG3R: Trust-Aware Adaptive Gating for Streaming 3D Reconstruction."
@@ -40,6 +40,7 @@
           <a href="#abstract">Abstract</a>
           <a href="#method">Method</a>
           <a href="#results">Benchmarks</a>
+          <a href="#length-results">Sequences</a>
           <a href="#visualization">Visualization</a>
           <!-- <a href="#comparison">Qualitative</a> -->
           <a href="#bibtex">BibTeX</a>
@@ -71,19 +72,29 @@
         </section>
 
         <section class="section section-wide teaser-section reveal" aria-label="Project summary">
-          <figure class="teaser-panel">
-            <img
-              src="static/images/tag3r-teaser-hq-1.png"
-              alt="TAG3R overview and qualitative comparison against CUT3R"
-            />
-            <figcaption>
-              TAG3R decouples <em>whether</em> a state token should be updated from
-              <em>how strongly</em> it should be updated. An introspective trust gate
-              diagnoses token reliability, while a coherence rate regulates
-              observation-driven writing. This separation reduces harmful
-              overwrites and yields cleaner long-horizon reconstructions than CUT3R.
-            </figcaption>
-          </figure>
+          <div class="teaser-tldr">
+            TL;DR: Training-free trust-aware state writing for long-horizon streaming 3D reconstruction.
+          </div>
+
+          <div class="teaser-video-panel">
+            <div class="teaser-video-header">
+              <strong>TAG3R</strong>
+              <span class="teaser-lightning" aria-hidden="true">⚡</span>
+              <span class="teaser-highlight">constant memory, no retraining</span>
+            </div>
+            <video
+              class="teaser-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              poster="assets/teaser/france_cover.png"
+              aria-label="TAG3R streaming 3D reconstruction teaser video"
+            >
+              <source src="assets/teaser/teaser_france.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </section>
 
         <section id="abstract" class="section reveal">
@@ -111,12 +122,65 @@
           </div>
         </section>
 
+        <section id="length-results" class="section section-wide reveal">
+          <div class="section-heading">
+            <h2>Long-Horizon Sequence Results</h2>
+            <p class="section-intro">
+              Browse representative long-horizon reconstructions and DAVIS sequences.
+              Click a poster below to load the corresponding video result.
+            </p>
+          </div>
+
+          <div class="visualization-gallery">
+            <div class="visualization-stage">
+              <video
+                id="sequence-video"
+                class="sequence-video-player"
+                autoplay
+                muted
+                loop
+                playsinline
+                aria-label="Long-horizon sequence reconstruction video"
+              >
+                Your browser does not support the video tag.
+              </video>
+              <div class="visualization-toolbar">
+                <div class="visualization-copy">
+                  <p class="visualization-eyebrow">Selected Sequence</p>
+                  <h3 id="sequence-video-title"></h3>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="sequence-video-thumbnails"
+              class="visualization-thumbnails"
+              role="list"
+              aria-label="Posters for long-horizon sequence results"
+            ></div>
+          </div>
+        </section>
+
         <section id="method" class="section section-wide reveal">
           <div class="section-heading">
             <h2>Method</h2>
           </div>
 
           <div class="method-layout">
+            <figure class="method-figure teaser-panel">
+              <img
+                src="static/images/tag3r-teaser-hq-1.png"
+                alt="TAG3R overview and qualitative comparison against CUT3R"
+              />
+              <figcaption>
+                TAG3R decouples <em>whether</em> a state token should be updated from
+                <em>how strongly</em> it should be updated. An introspective trust gate
+                diagnoses token reliability, while a coherence rate regulates
+                observation-driven writing. This separation reduces harmful
+                overwrites and yields cleaner long-horizon reconstructions than CUT3R.
+              </figcaption>
+            </figure>
+
             <div class="stack method-highlights">
               <article class="info-card">
                 <h3>State-Side Diagnosis</h3>
@@ -250,7 +314,6 @@
                 <div class="visualization-copy">
                   <p class="visualization-eyebrow">Selected Sequence</p>
                   <h3 id="visualization-title"></h3>
-                  <p id="visualization-file" class="visualization-file"></p>
                 </div>
                 <div class="visualization-tips" aria-label="Viewer controls">
                   <span>Drag: Orbit</span>
