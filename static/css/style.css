@@ -67,10 +67,14 @@ pre {
 }
 
 .brand {
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+}
+
+.brand img {
+  display: block;
+  width: auto;
+  height: 28px;
 }
 
 .site-nav {
