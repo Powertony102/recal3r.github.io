@@ -29,10 +29,12 @@ const visualizationItems = [
     modelSrc: "assets/glb/dl3dv_5f00/dl3dv_5f00.glb",
   },
   {
-    id: "whiteroom",
-    title: "White Room",
-    imageSrc: "assets/glb/whiteroom/whiteroom.webp",
-    modelSrc: "assets/glb/whiteroom/whiteroom.glb",
+    id: "gallery",
+    title: "Gallery",
+    imageSrc: "assets/glb/gallery/gallery.webp",
+    modelSrc: "assets/glb/gallery/gallery.glb",
+    cameraOrbit: "0deg 75deg 10m",
+    orientation: "",
   },
 ];
 const sequenceVideoItems = [
@@ -165,14 +167,22 @@ function setActiveVisualization(item, triggerButton, loadModel = true) {
   }
 
   const { title, modelSrc } = item;
+  if (item.orientation === "") {
+    qualitativeViewer.removeAttribute("orientation");
+  } else {
+    qualitativeViewer.setAttribute(
+      "orientation",
+      item.orientation || "0deg 0deg 180deg"
+    );
+  }
+  if (loadModel) {
+    resetQualitativeViewerCamera(item.cameraOrbit);
+  }
 
   if (loadModel) {
     qualitativeViewer.setAttribute("src", modelSrc);
-  } else {
-    qualitativeViewer.removeAttribute("src");
   }
   qualitativeViewer.setAttribute("poster", item.imageSrc);
-  resetQualitativeViewerCamera();
   qualitativeViewer.setAttribute(
     "alt",
     `Interactive 3D reconstruction visualized from the ${title} scene.`
@@ -414,18 +424,21 @@ function renderComparisonGallery() {
   });
 }
 
-function resetQualitativeViewerCamera() {
+function resetQualitativeViewerCamera(orbit = "180deg 75deg 130%") {
   if (!qualitativeViewer) {
     return;
   }
 
-  qualitativeViewer.cameraOrbit = "180deg 70deg auto";
-  if (typeof qualitativeViewer.resetTurntableRotation === "function") {
-    qualitativeViewer.resetTurntableRotation(0);
-  }
-  if (typeof qualitativeViewer.jumpCameraToGoal === "function") {
-    qualitativeViewer.jumpCameraToGoal();
-  }
+  qualitativeViewer.setAttribute("camera-orbit", orbit);
+  qualitativeViewer.setAttribute("camera-target", "auto auto auto");
+  requestAnimationFrame(() => {
+    if (typeof qualitativeViewer.resetTurntableRotation === "function") {
+      qualitativeViewer.resetTurntableRotation(0);
+    }
+    if (typeof qualitativeViewer.jumpCameraToGoal === "function") {
+      qualitativeViewer.jumpCameraToGoal();
+    }
+  });
 }
 
 function renderVisualizationGallery() {
@@ -463,7 +476,7 @@ function renderVisualizationGallery() {
 
     visualizationThumbContainer.appendChild(button);
 
-    if (index === 0) {
+    if (item.id === "gallery") {
       setActiveVisualization(item, button, false);
     }
   });
@@ -573,10 +586,6 @@ pageVideos.forEach(bindVideoLoadingProgress);
 renderVisualizationGallery();
 renderSequenceVideoGallery();
 // renderComparisonGallery();
-
-if (qualitativeViewer) {
-  qualitativeViewer.addEventListener("load", resetQualitativeViewerCamera);
-}
 
 // if (comparisonResetButton) {
 //   comparisonResetButton.addEventListener("click", () => {

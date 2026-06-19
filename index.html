@@ -285,18 +285,18 @@
               <model-viewer
                 id="qualitative-viewer"
                 class="qualitative-viewer"
-                src=""
-                alt="Interactive 3D reconstruction visualized from a GLB scene."
+                src="assets/glb/gallery/gallery.glb"
+                poster="assets/glb/gallery/gallery.jpg"
+                alt="Interactive 3D reconstruction visualized from the Gallery scene."
                 loading="lazy"
                 camera-controls
                 touch-action="pan-y"
                 disable-tap
                 interaction-prompt="none"
-                camera-orbit="180deg 70deg auto"
+                camera-orbit="0deg 75deg 10m"
+                camera-target="auto auto auto"
                 field-of-view="32deg"
                 zoom-sensitivity="0.2"
-                min-camera-orbit="auto auto 1m"
-                max-camera-orbit="auto auto 10m"
                 shadow-intensity="0"
                 disable-shadow
                 exposure="1"
@@ -435,6 +435,6 @@
       </footer>
     </div>
 
-    <script src="static/js/app.js?v=20260619a"></script>
+    <script src="static/js/app.js?v=20260619m"></script>
   </body>
 </html>
