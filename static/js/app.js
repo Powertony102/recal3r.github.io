@@ -34,7 +34,7 @@ const visualizationItems = [
     imageSrc: "assets/glb/gallery/gallery.webp",
     modelSrc: "assets/glb/gallery/gallery.glb",
     cameraOrbit: "0deg 75deg 10m",
-    orientation: "",
+    orientation: "0deg 0deg 0deg",
   },
 ];
 const sequenceVideoItems = [
@@ -104,6 +104,14 @@ const comparisonScenes = [
 ];
 let comparisonViewers = [];
 let isSyncingComparisonCamera = false;
+let activeVisualizationItem = null;
+let loadingVisualizationItem = null;
+let queuedVisualization = null;
+let isVisualizationLoading = Boolean(qualitativeViewer?.getAttribute("src"));
+
+if (qualitativeViewer && isVisualizationLoading) {
+  qualitativeViewer.setAttribute("aria-busy", "true");
+}
 
 function bindVideoLoadingProgress(video) {
   const progress = video.closest(".video-load-frame")?.querySelector(".video-load-progress");
@@ -161,27 +169,16 @@ function bindVideoLoadingProgress(video) {
   }
 }
 
-function setActiveVisualization(item, triggerButton, loadModel = true) {
+function updateVisualizationUi(item, triggerButton) {
   if (!qualitativeViewer) {
     return;
   }
 
-  const { title, modelSrc } = item;
-  if (item.orientation === "") {
-    qualitativeViewer.removeAttribute("orientation");
-  } else {
-    qualitativeViewer.setAttribute(
-      "orientation",
-      item.orientation || "0deg 0deg 180deg"
-    );
-  }
-  if (loadModel) {
-    resetQualitativeViewerCamera(item.cameraOrbit);
-  }
-
-  if (loadModel) {
-    qualitativeViewer.setAttribute("src", modelSrc);
-  }
+  const { title } = item;
+  qualitativeViewer.setAttribute(
+    "orientation",
+    item.orientation || "0deg 0deg 180deg"
+  );
   qualitativeViewer.setAttribute("poster", item.imageSrc);
   qualitativeViewer.setAttribute(
     "alt",
@@ -201,6 +198,83 @@ function setActiveVisualization(item, triggerButton, loadModel = true) {
         thumb.setAttribute("aria-pressed", String(isActive));
       });
   }
+
+  activeVisualizationItem = item;
+}
+
+function beginVisualizationLoad(item, triggerButton) {
+  if (!qualitativeViewer) {
+    return;
+  }
+
+  updateVisualizationUi(item, triggerButton);
+  loadingVisualizationItem = item;
+  isVisualizationLoading = true;
+  qualitativeViewer.setAttribute("aria-busy", "true");
+  qualitativeViewer.setAttribute("src", item.modelSrc);
+}
+
+function finishVisualizationLoad(wasSuccessful) {
+  if (!qualitativeViewer || !isVisualizationLoading) {
+    return;
+  }
+
+  const completedItem = loadingVisualizationItem || activeVisualizationItem;
+  loadingVisualizationItem = null;
+  isVisualizationLoading = false;
+  qualitativeViewer.removeAttribute("aria-busy");
+
+  if (wasSuccessful && completedItem) {
+    resetQualitativeViewerCamera(completedItem.cameraOrbit);
+  }
+
+  const nextVisualization = queuedVisualization;
+  queuedVisualization = null;
+  if (!nextVisualization) {
+    return;
+  }
+
+  if (qualitativeViewer.getAttribute("src") === nextVisualization.item.modelSrc) {
+    updateVisualizationUi(nextVisualization.item, nextVisualization.triggerButton);
+    if (wasSuccessful) {
+      resetQualitativeViewerCamera(nextVisualization.item.cameraOrbit);
+    }
+    return;
+  }
+
+  beginVisualizationLoad(nextVisualization.item, nextVisualization.triggerButton);
+}
+
+function setActiveVisualization(item, triggerButton, loadModel = true) {
+  if (!qualitativeViewer) {
+    return;
+  }
+
+  if (!loadModel) {
+    updateVisualizationUi(item, triggerButton);
+    return;
+  }
+
+  if (isVisualizationLoading) {
+    queuedVisualization = { item, triggerButton };
+    return;
+  }
+
+  if (qualitativeViewer.getAttribute("src") === item.modelSrc) {
+    updateVisualizationUi(item, triggerButton);
+    resetQualitativeViewerCamera(item.cameraOrbit);
+    return;
+  }
+
+  beginVisualizationLoad(item, triggerButton);
+}
+
+if (qualitativeViewer) {
+  qualitativeViewer.addEventListener("load", () => finishVisualizationLoad(true));
+  qualitativeViewer.addEventListener("error", (event) => {
+    console.error("Failed to load qualitative model.", event.detail?.sourceError || event.detail);
+    finishVisualizationLoad(false);
+  });
 }
 
 function setActiveSequenceVideo(item, triggerButton, scrollIntoView = true) {

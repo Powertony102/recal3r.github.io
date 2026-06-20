@@ -108,7 +108,7 @@ Then replace an image block like:
 with:
 
 ```html
-<video controls autoplay muted loop playsinline poster="static/images/teaser.png">
+<video controls autoplay muted loop playsinline poster="static/images/tag3r-teaser.webp">
   <source src="static/videos/teaser.mp4" type="video/mp4" />
 </video>
 ```
