@@ -53,17 +53,36 @@ pre {
 .page-shell {
   width: min(calc(100% - 32px), var(--content-width));
   margin: 0 auto;
-  padding: 20px 0 48px;
+  padding: 0 0 48px;
 }
 
 .topbar {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  min-height: 56px;
-  margin-bottom: 14px;
+  min-height: 64px;
+  padding: 0 max(24px, calc((100vw - var(--content-width)) / 2));
   border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.topbar.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .brand {
@@ -74,7 +93,7 @@ pre {
 .brand img {
   display: block;
   width: auto;
-  height: 24px;
+  height: 25px;
 }
 
 .site-nav {
@@ -115,7 +134,9 @@ pre {
 }
 
 .hero {
-  padding-top: 14px;
+  width: min(100%, 1120px);
+  margin-bottom: 46px;
+  padding-top: clamp(64px, 9vw, 118px);
 }
 
 .hero-copy {
@@ -146,10 +167,12 @@ p {
 }
 
 h1 {
-  font-size: clamp(2.25rem, 4vw, 3.4rem);
-  line-height: 1.18;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  max-width: 1060px;
+  margin: 0 auto;
+  font-size: clamp(2.1rem, 4.2vw, 3.65rem);
+  line-height: 1.14;
+  font-weight: 800;
+  letter-spacing: -0.04em;
 }
 
 h2 {
@@ -170,7 +193,7 @@ h3 {
   flex-wrap: wrap;
   justify-content: center;
   gap: 8px 18px;
-  margin-top: 18px;
+  margin-top: 26px;
   font-size: 1.02rem;
   font-weight: 500;
 }
@@ -225,8 +248,9 @@ h3 {
 }
 
 .affiliations {
-  margin-top: 6px;
-  font-size: 1rem;
+  margin-top: 7px;
+  font-size: 0.96rem;
+  line-height: 1.55;
 }
 
 .hero-note {
@@ -239,8 +263,29 @@ h3 {
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.institution-logos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 220px));
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 48px);
+  width: min(100%, 760px);
+  margin: 28px auto 0;
+}
+
+.institution-logo {
+  width: 100%;
+  max-width: 220px;
+  height: 62px;
+  object-fit: contain;
+}
+
+.logo-jlu {
+  height: 58px;
 }
 
 .button,
@@ -248,15 +293,18 @@ h3 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 38px;
-  padding: 0 14px;
+  gap: 7px;
+  min-width: 116px;
+  min-height: 44px;
+  padding: 0 20px;
   border: 0;
   border-radius: 999px;
   background: var(--button);
   color: #fff;
-  font-size: 0.96rem;
+  font-size: 0.94rem;
   font-weight: 600;
-  transition: background 140ms ease;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.13);
+  transition: background 140ms ease, transform 140ms ease, box-shadow 140ms ease;
 }
 
 .button:hover,
@@ -264,6 +312,8 @@ h3 {
 .copy-button:hover,
 .copy-button:focus-visible {
   background: var(--button-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.16);
 }
 
 .button.primary {
@@ -998,14 +1048,33 @@ h3 {
   }
 
   .topbar {
-    position: relative;
+    padding-right: 16px;
+    padding-left: 16px;
   }
 }
 
 @media (max-width: 720px) {
   .page-shell {
     width: min(calc(100% - 20px), var(--content-width));
-    padding-top: 10px;
+    padding-top: 0;
+  }
+
+  .hero {
+    padding-top: 54px;
+  }
+
+  .institution-logos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .institution-logo {
+    max-width: 100%;
+    height: 46px;
+  }
+
+  .logo-jlu {
+    height: 43px;
   }
 
   h1 {

@@ -15,6 +15,7 @@ const comparisonViewerContainer = document.querySelector("#comparison-viewers");
 const comparisonSceneContainer = document.querySelector("#comparison-scenes");
 const comparisonResetButton = document.querySelector("#comparison-reset");
 const comparisonSyncToggle = document.querySelector("#comparison-sync");
+const topbar = document.querySelector(".topbar");
 const visualizationItems = [
   {
     id: "dl3dv_5c3a",
@@ -606,6 +607,37 @@ if (menuToggle && siteNav) {
     link.addEventListener("click", () => {
       siteNav.classList.remove("is-open");
       menuToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+}
+
+if (topbar) {
+  let navigationIntent = false;
+
+  const updateTopbar = () => {
+    const showTopbar = navigationIntent && window.scrollY > 80;
+    topbar.classList.toggle("is-visible", showTopbar);
+
+    if (!showTopbar && menuToggle && siteNav) {
+      siteNav.classList.remove("is-open");
+      menuToggle.setAttribute("aria-expanded", "false");
+    }
+  };
+
+  const enableNavigation = () => {
+    navigationIntent = true;
+  };
+
+  window.addEventListener("wheel", enableNavigation, { passive: true, once: true });
+  window.addEventListener("touchmove", enableNavigation, { passive: true, once: true });
+  window.addEventListener("pointerdown", enableNavigation, { passive: true, once: true });
+  window.addEventListener("keydown", enableNavigation, { once: true });
+  window.addEventListener("scroll", updateTopbar, { passive: true });
+
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      navigationIntent = true;
+      window.requestAnimationFrame(updateTopbar);
     });
   });
 }

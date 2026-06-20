@@ -26,15 +26,9 @@
   </head>
   <body>
     <div class="page-shell">
-      <header class="topbar">
-        <a class="brand" href="#top">
-          <picture>
-            <source
-              srcset="assets/logo/tag3r-wordmark.webp"
-              type="image/webp"
-            />
-            <img src="assets/logo/tag3r-wordmark.webp" alt="TAG3R" />
-          </picture>
+      <header class="topbar" aria-label="Page navigation">
+        <a class="brand" href="#top" aria-label="TAG3R home">
+          <img src="assets/logo/tag3r-wordmark.webp" alt="TAG3R" />
         </a>
         <button
           class="menu-toggle"
@@ -50,7 +44,6 @@
           <a href="#results">Efficiency</a>
           <a href="#length-results">Sequences</a>
           <a href="#visualization">Visualization</a>
-          <!-- <a href="#comparison">Qualitative</a> -->
           <a href="#bibtex">BibTeX</a>
         </nav>
       </header>
@@ -76,10 +69,16 @@
             </p>
             <p class="hero-note">* Corresponding author: Wentao Cheng. Email: wentaocheng@bnbu.edu.cn</p>
 
+            <div class="institution-logos" aria-label="Affiliated institutions">
+              <img class="institution-logo logo-bnbu" src="assets/logo/logo_bnbu.svg" alt="Beijing Normal-Hong Kong Baptist University" />
+              <img class="institution-logo logo-jlu" src="assets/logo/logo_jlu.webp" alt="Jilin University" />
+              <img class="institution-logo logo-hkbu" src="assets/logo/logo_hkbu.svg" alt="Hong Kong Baptist University" />
+            </div>
+
             <div class="hero-actions centered">
-              <a class="button primary" href="TAG3R_Paper/iclr2026_conference.pdf">Paper</a>
-              <a class="button" href="#results">Results</a>
-              <a class="button" href="#bibtex">BibTeX</a>
+              <a class="button primary" href="TAG3R_Paper/iclr2026_conference.pdf"><span aria-hidden="true">&#128196;</span> Paper</a>
+              <a class="button" href="#results"><span aria-hidden="true">&#128202;</span> Results</a>
+              <a class="button" href="#bibtex"><span aria-hidden="true">&#128203;</span> BibTeX</a>
             </div>
           </div>
         </section>
