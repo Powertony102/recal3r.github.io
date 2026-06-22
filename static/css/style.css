@@ -270,23 +270,23 @@ h3 {
 
 .institution-logos {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 220px));
+  grid-template-columns: repeat(4, 1fr);
   align-items: center;
-  justify-content: center;
-  gap: clamp(24px, 4vw, 48px);
-  width: min(100%, 1000px);
+  justify-items: center;
+  gap: clamp(18px, 3vw, 34px);
+  width: min(100%, 1100px);
   margin: 28px auto 0;
 }
 
 .institution-logo {
   width: 100%;
-  max-width: 220px;
-  height: 62px;
+  max-width: 230px;
+  height: 64px;
   object-fit: contain;
 }
 
 .logo-jlu {
-  height: 58px;
+  height: 62px;
 }
 
 .button,
@@ -1067,17 +1067,17 @@ h3 {
   }
 
   .institution-logos {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
   }
 
   .institution-logo {
-    max-width: 100%;
-    height: 46px;
+    max-width: 170px;
+    height: 50px;
   }
 
   .logo-jlu {
-    height: 43px;
+    height: 48px;
   }
 
   h1 {
