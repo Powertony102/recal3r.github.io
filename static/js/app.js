@@ -300,7 +300,7 @@ function setActiveSequenceVideo(item, triggerButton, scrollIntoView = true) {
     autoplayPromise.catch(() => {});
   }
 
-  sequenceVideo.setAttribute("aria-label", `${item.title} reconstruction video`);
+  sequenceVideo.setAttribute("aria-label", `Streaming reconstruction of the ${item.title} sequence.`);
 
   if (sequenceVideoTitle) {
     sequenceVideoTitle.textContent = item.title;
@@ -580,7 +580,7 @@ function renderSequenceVideoGallery() {
     button.setAttribute("aria-pressed", "false");
 
     image.src = item.imageSrc;
-    image.alt = `Poster for ${item.title}`;
+    image.alt = `Thumbnail for the ${item.title} streaming reconstruction sequence.`;
 
     label.className = "visualization-thumb-label";
     label.textContent = item.title;

@@ -85,7 +85,7 @@
 
         <section class="section section-wide teaser-section reveal" aria-label="Project summary">
           <div class="teaser-tldr">
-            TL;DR: Training-free trust-aware state writing for long-horizon streaming 3D reconstruction.
+            TL;DR: A reliability-calibrated learning-rate rule for streaming 3D reconstruction.
           </div>
 
           <div class="teaser-video-panel">
@@ -123,31 +123,34 @@
           </div>
           <div class="prose-card">
             <p>
-              Streaming 3D reconstruction must absorb unbounded image streams into a
-              compact scene state with constant memory and per-frame cost. Existing
-              recurrent methods make this setting practical, but their state updates
-              become increasingly fragile over long horizons: the model may still
-              write aggressively even when the receiving state token has already
-              drifted away from a reliable geometric representation. ReCal3R addresses
-              this failure mode by decoupling whether a token should accept new
-              evidence from how strongly the current observation should update it.
-              The method derives token trust from the maintained state and combines
-              it with an observation-driven coherence rate, enabling conservative
-              fallback updates for degraded tokens while preserving plasticity for
-              informative frames. Plugged into CUT3R without training or additional
-              learnable parameters, ReCal3R substantially improves long-horizon
-              generalization across pose, depth, and reconstruction, including a
-              3.7× reduction in ATE on 1,000-frame ScanNet sequences.
+              Streaming 3D reconstruction relies on a compact recurrent scene state
+              to process long image streams in linear time and bounded memory.
+              However, repeated updates can gradually corrupt this state, causing
+              reliable historical information to be overwritten by noisy or
+              ambiguous observations. We introduce ReCal3R, a reliability calibrated
+              learning rate method for recurrent 3D reconstruction. Instead of
+              directly applying a candidate learning rate, our method estimates
+              state-token reliability from the maintained scene state and uses it to
+              calibrate a candidate learning rate derived from token alignment, state
+              reconstruction residual, and recent update pressure. The resulting
+              token-wise learning rate interpolates between a conservative base rate
+              and the candidate rate, suppressing aggressive updates on unreliable
+              tokens while preserving adaptation to informative frames. Applied to
+              CUT3R as a training-free calibration rule, ReCal3R reaches strong
+              performance on long sequences in pose, depth, and reconstruction
+              quality, including a 3.7&times; reduction in ATE, with comparable
+              runtime and memory.
             </p>
           </div>
         </section>
 
         <section id="length-results" class="section section-wide reveal">
           <div class="section-heading">
-            <h2>Visualization</h2>
+            <h2>Sequences</h2>
             <p class="section-intro">
-              Browse representative reconstruction and sequence visualization results.
-              Click a thumbnail below to load the corresponding video.
+              Streaming reconstructions produced frame by frame, with no state reset
+              or reinitialization. Each clip is the model's raw output over the full
+              sequence — pick a scene to play it.
             </p>
           </div>
 
@@ -208,7 +211,7 @@
                 />
               </picture>
               <figcaption>
-                ReCal3R estimates state token reliability and a candidate learning rate from the recurrent forward pass, and uses reliability calibration to obtain the final state update rate. This prevents unreliable state tokens from receiving aggressive updates and leads to cleaner reconstructions than CUT3R over long image streams.
+                ReCal3R estimates state token reliability and a candidate learning rate from the recurrent forward pass, and uses reliability calibration to obtain the final state learning rate. This prevents unreliable state tokens from receiving aggressive updates and leads to cleaner reconstructions than CUT3R over long image streams.
               </figcaption>
             </figure>
           </div>
@@ -216,14 +219,14 @@
 
         <section id="results" class="section section-wide reveal">
           <div class="section-heading">
-            <h2>Long-Horizon Accuracy and Efficiency</h2>
+            <h2>Accuracy and Efficiency</h2>
             <p class="section-intro">
-              On 1,000-frame ScanNet sequences, ReCal3R achieves the lowest ATE
-              (0.211), a 3.7&times; reduction over CUT3R, while retaining practical
-              throughput (19.9 FPS) and CUT3R-level GPU memory (6.1 GB). These
-              results show that trust-aware state updates substantially improve
-              long-horizon accuracy without sacrificing the bounded-memory
-              streaming design.
+              Stability shows up most clearly when streams get long. On 1,000-frame
+              ScanNet, ReCal3R lowers ATE from CUT3R's 0.786 to 0.211 — a 3.7×
+              reduction — while running at 19.9 FPS against CUT3R's 23.5 and using
+              6.1 GB of memory against 6.0. In short, the accuracy gain comes from
+              calibrating which tokens get written, not from spending more compute:
+              runtime and memory stay at CUT3R's level.
             </p>
           </div>
 
@@ -237,7 +240,7 @@
 
         <section id="visualization" class="section section-wide reveal">
           <div class="section-heading">
-            <h2>Qualitative Visualization</h2>
+            <h2>Visualization</h2>
             <p class="section-intro">
               Click an RGB thumbnail below to load its corresponding 3D
               reconstruction. Drag to orbit, scroll to zoom, and inspect the scene
