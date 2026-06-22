@@ -3,16 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TAG3R: Trust-Aware Adaptive Gating for Streaming 3D Reconstruction</title>
+    <title>ReCal3R: Reliability-Calibrated Learning Rates for Streaming 3D Reconstruction</title>
     <meta
       name="description"
-      content="TAG3R: Trust-Aware Adaptive Gating for Streaming 3D Reconstruction."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap"
-      rel="stylesheet"
+      content="ReCal3R: Reliability-Calibrated Learning Rates for Streaming 3D Reconstruction."
     />
     <script
       type="module"
@@ -27,8 +21,8 @@
   <body>
     <div class="page-shell">
       <header class="topbar" aria-label="Page navigation">
-        <a class="brand" href="#top" aria-label="TAG3R home">
-          <img src="assets/logo/tag3r-wordmark.webp" alt="TAG3R" />
+        <a class="brand" href="#top" aria-label="ReCal3R home">
+          <img src="assets/logo/recal3r-wordmark.webp" alt="ReCal3R" />
         </a>
         <button
           class="menu-toggle"
@@ -51,32 +45,38 @@
       <main id="top">
         <section class="hero section">
           <div class="hero-copy reveal">
-            <h1>TAG3R: Trust-Aware Adaptive Gating for Streaming 3D Reconstruction</h1>
+            <h1>ReCal3R: Reliability-Calibrated Learning Rates for Streaming 3D Reconstruction</h1>
             <div class="authors centered">
               <span>Xinze Li<sup>1</sup></span>
-              <span>Yiyuan Wang<sup>3,1</sup></span>
-              <span>Pengxu Chen<sup>2</sup></span>
-              <span>Weifeng Su<sup>1,4</sup></span>
+              <span>Yiyuwan Wang<sup>2,1</sup></span>
+              <span>Pengxu Chen<sup>3</sup></span>
               <span>Wentao Cheng<sup>1,*</sup></span>
+              <span>Wentao Fan<sup>1,4</sup></span>
+              <span>Weifeng Su<sup>1,4</sup></span>
+              <span>Weisi Lin<sup>5</sup></span>
             </div>
             <p class="affiliations centered">
               <sup>1</sup>Beijing Normal-Hong Kong Baptist University &nbsp;
-              <sup>2</sup>Jilin University &nbsp;
-              <sup>3</sup>Hong Kong Baptist University
+              <sup>2</sup>Hong Kong Baptist University &nbsp;
+              <sup>3</sup>Jilin University
             </p>
             <p class="affiliations centered">
               <sup>4</sup>Guangdong Provincial Key Laboratory of Interdisciplinary Research and Application for Data Science
+            </p>
+            <p class="affiliations centered">
+              <sup>5</sup>Nanyang Technological University
             </p>
             <p class="hero-note">* Corresponding author: Wentao Cheng. Email: wentaocheng@bnbu.edu.cn</p>
 
             <div class="institution-logos" aria-label="Affiliated institutions">
               <img class="institution-logo logo-bnbu" src="assets/logo/logo_bnbu.svg" alt="Beijing Normal-Hong Kong Baptist University" />
-              <img class="institution-logo logo-jlu" src="assets/logo/logo_jlu.webp" alt="Jilin University" />
               <img class="institution-logo logo-hkbu" src="assets/logo/logo_hkbu.svg" alt="Hong Kong Baptist University" />
+              <img class="institution-logo logo-jlu" src="assets/logo/logo_jlu.webp" alt="Jilin University" />
+              <img class="institution-logo logo-ntu" src="assets/logo/ntu_logo.webp" alt="Nanyang Technological University" />
             </div>
 
             <div class="hero-actions centered">
-              <a class="button primary" href="TAG3R_Paper/iclr2026_conference.pdf"><span aria-hidden="true">&#128196;</span> Paper</a>
+              <a class="button primary" href="ReCal3R_Paper/iclr2026_conference.pdf"><span aria-hidden="true">&#128196;</span> Paper</a>
               <a class="button" href="#results"><span aria-hidden="true">&#128202;</span> Results</a>
               <a class="button" href="#bibtex"><span aria-hidden="true">&#128203;</span> BibTeX</a>
             </div>
@@ -90,7 +90,7 @@
 
           <div class="teaser-video-panel">
             <div class="teaser-video-header">
-              <strong>TAG3R</strong>
+              <strong>ReCal3R</strong>
               <span class="teaser-lightning" aria-hidden="true">⚡</span>
               <span class="teaser-highlight">constant memory, no retraining</span>
             </div>
@@ -108,7 +108,7 @@
                 muted
                 loop
                 playsinline
-                aria-label="TAG3R streaming 3D reconstruction teaser video"
+                aria-label="ReCal3R streaming 3D reconstruction teaser video"
               >
                 <source src="assets/teaser/teaser_france.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
@@ -128,14 +128,14 @@
               recurrent methods make this setting practical, but their state updates
               become increasingly fragile over long horizons: the model may still
               write aggressively even when the receiving state token has already
-              drifted away from a reliable geometric representation. TAG3R addresses
+              drifted away from a reliable geometric representation. ReCal3R addresses
               this failure mode by decoupling whether a token should accept new
               evidence from how strongly the current observation should update it.
               The method derives token trust from the maintained state and combines
               it with an observation-driven coherence rate, enabling conservative
               fallback updates for degraded tokens while preserving plasticity for
               informative frames. Plugged into CUT3R without training or additional
-              learnable parameters, TAG3R substantially improves long-horizon
+              learnable parameters, ReCal3R substantially improves long-horizon
               generalization across pose, depth, and reconstruction, including a
               3.7× reduction in ATE on 1,000-frame ScanNet sequences.
             </p>
@@ -199,52 +199,18 @@
             <figure class="method-figure teaser-panel">
               <picture>
                 <source
-                  srcset="static/images/tag3r-teaser-hq-1.webp"
+                  srcset="static/images/recal3r-teaser-hq-1.webp"
                   type="image/webp"
                 />
                 <img
-                  src="static/images/tag3r-teaser-hq-1.webp"
-                  alt="TAG3R overview and qualitative comparison against CUT3R"
+                  src="static/images/recal3r-teaser-hq-1.webp"
+                  alt="ReCal3R overview and qualitative comparison against CUT3R"
                 />
               </picture>
               <figcaption>
-                TAG3R decouples <em>whether</em> a state token should be updated from
-                <em>how strongly</em> it should be updated. An introspective trust gate
-                diagnoses token reliability, while a coherence rate regulates
-                observation-driven writing. This separation reduces harmful
-                overwrites and yields cleaner long-horizon reconstructions than CUT3R.
+                ReCal3R estimates state token reliability and a candidate learning rate from the recurrent forward pass, and uses reliability calibration to obtain the final state update rate. This prevents unreliable state tokens from receiving aggressive updates and leads to cleaner reconstructions than CUT3R over long image streams.
               </figcaption>
             </figure>
-
-            <div class="stack method-highlights">
-              <article class="info-card">
-                <h3>State-Side Diagnosis</h3>
-                <p>
-                  TAG3R first evaluates whether a state token remains a dependable
-                  carrier of historical geometry. The trust score is estimated from
-                  state drift and attention entropy, which together capture token
-                  degradation and observation ambiguity.
-                </p>
-              </article>
-              <article class="info-card">
-                <h3>Observation-Side Update Rate</h3>
-                <p>
-                  The coherence branch determines how strongly the current frame
-                  should write into the state. It combines alignment, frame novelty,
-                  and per-token fatigue so that redundant frames and saturated slots
-                  are naturally suppressed.
-                </p>
-              </article>
-              <article class="info-card">
-                <h3>Decoupled State Writing</h3>
-                <p>
-                  Trust answers whether a token should be updated; coherence answers
-                  how much it should change. Their fusion preserves constant-memory
-                  streaming while reducing drift accumulation over long sequences,
-                  with no retraining and no extra learnable parameters.
-                </p>
-              </article>
-            </div>
           </div>
         </section>
 
@@ -252,7 +218,7 @@
           <div class="section-heading">
             <h2>Long-Horizon Accuracy and Efficiency</h2>
             <p class="section-intro">
-              On 1,000-frame ScanNet sequences, TAG3R achieves the lowest ATE
+              On 1,000-frame ScanNet sequences, ReCal3R achieves the lowest ATE
               (0.211), a 3.7&times; reduction over CUT3R, while retaining practical
               throughput (19.9 FPS) and CUT3R-level GPU memory (6.1 GB). These
               results show that trust-aware state updates substantially improve
@@ -286,7 +252,7 @@
                 class="qualitative-viewer"
                 src="assets/glb/gallery/gallery.glb"
                 poster="assets/glb/gallery/gallery.jpg"
-                alt="Interactive 3D reconstruction visualized from the Gallery scene."
+                alt="Interactive 3D reconstruction visualized from the BNBU Gallery scene."
                 loading="lazy"
                 camera-controls
                 touch-action="pan-y"
@@ -329,7 +295,7 @@
             <h2>Qualitative Comparison</h2>
             <p class="section-intro">
               Qualitative results on representative 7-Scenes and NRGBD examples show
-              that TAG3R better preserves geometry coherence and surface structure
+              that ReCal3R better preserves geometry coherence and surface structure
               under long-horizon streaming.
             </p>
           </div>
@@ -367,20 +333,20 @@
             <article class="comparison-card comparison-figure-card">
               <div class="comparison-labels">
                 <span>Streaming baselines</span>
-                <span>TAG3R</span>
+                <span>ReCal3R</span>
               </div>
               <picture>
                 <source
-                  srcset="static/images/tag3r-qualitative-hq-1.webp"
+                  srcset="static/images/recal3r-qualitative-hq-1.webp"
                   type="image/webp"
                 />
                 <img
-                  src="static/images/tag3r-qualitative-hq-1.webp"
-                  alt="Qualitative 3D reconstruction comparison between TAG3R and prior methods"
+                  src="static/images/recal3r-qualitative-hq-1.webp"
+                  alt="Qualitative 3D reconstruction comparison between ReCal3R and prior methods"
                 />
               </picture>
               <p>
-                Compared with prior recurrent baselines, TAG3R reduces structural
+                Compared with prior recurrent baselines, ReCal3R reduces structural
                 distortion, suppresses noisy geometry, and retains more coherent
                 scene layouts after long streaming updates.
               </p>
@@ -405,9 +371,9 @@
             <button class="copy-button" type="button" data-copy-target="bibtex-block">
               Copy
             </button>
-            <pre id="bibtex-block"><code>@article{li2026tag3r,
-  title   = {TAG3R: Trust-Aware Adaptive Gating for Streaming 3D Reconstruction},
-  author  = {Li, Xinze and Cheng, Wentao},
+            <pre id="bibtex-block"><code>@article{li2026recal3r,
+  title   = {ReCal3R: Reliability-Calibrated Learning Rates for Streaming 3D Reconstruction},
+  author  = {Li, Xinze and Wang, Yiyuwan and Chen, Pengxu and Cheng, Wentao and Fan, Wentao and Su, Weifeng and Lin, Weisi},
   journal = {arXiv preprint},
   year    = {2026}
 }</code></pre>
@@ -429,7 +395,7 @@
 
       <footer class="footer">
         <p>
-          TAG3R project page. Last updated <span id="current-year"></span>.
+          ReCal3R project page. Last updated <span id="current-year"></span>.
         </p>
       </footer>
     </div>

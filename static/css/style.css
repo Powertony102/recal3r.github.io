@@ -28,8 +28,8 @@ html {
 
 body {
   margin: 0;
-  font-family: "Noto Sans", sans-serif;
-  font-size: 17px;
+  font-family: "Nimbus Sans", "Nimbus Sans L", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 22px;
   color: var(--text);
   background: var(--bg);
 }
@@ -155,8 +155,9 @@ pre {
 }
 
 h1,
-h2 {
-  font-family: "Noto Sans", sans-serif;
+h2,
+h3 {
+  font-family: "Nimbus Sans", "Nimbus Sans L", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 h1,
@@ -194,7 +195,7 @@ h3 {
   justify-content: center;
   gap: 8px 18px;
   margin-top: 26px;
-  font-size: 1.02rem;
+  font-size: 1.15rem;
   font-weight: 500;
 }
 
@@ -249,7 +250,7 @@ h3 {
 
 .affiliations {
   margin-top: 7px;
-  font-size: 0.96rem;
+  font-size: 1.05rem;
   line-height: 1.55;
 }
 
@@ -269,11 +270,11 @@ h3 {
 
 .institution-logos {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 220px));
+  grid-template-columns: repeat(4, minmax(0, 220px));
   align-items: center;
   justify-content: center;
   gap: clamp(24px, 4vw, 48px);
-  width: min(100%, 760px);
+  width: min(100%, 1000px);
   margin: 28px auto 0;
 }
 

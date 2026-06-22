@@ -1,4 +1,4 @@
-# tag3r Project Page
+# ReCal3R Project Page
 
 This repository is a lightweight static project page scaffold for a CV / 3D research paper demo site. It is designed for the common workflow where the training and rendering code live in a separate research repository, while this repo only hosts the presentation layer.
 
@@ -108,7 +108,7 @@ Then replace an image block like:
 with:
 
 ```html
-<video controls autoplay muted loop playsinline poster="static/images/tag3r-teaser.webp">
+<video controls autoplay muted loop playsinline poster="static/images/recal3r-teaser.webp">
   <source src="static/videos/teaser.mp4" type="video/mp4" />
 </video>
 ```

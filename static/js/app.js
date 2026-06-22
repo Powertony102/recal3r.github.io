@@ -31,7 +31,7 @@ const visualizationItems = [
   },
   {
     id: "gallery",
-    title: "Gallery",
+    title: "BNBU Gallery",
     imageSrc: "assets/glb/gallery/gallery.webp",
     modelSrc: "assets/glb/gallery/gallery.glb",
     cameraOrbit: "0deg 75deg 10m",
@@ -43,17 +43,17 @@ const sequenceVideoItems = [
     id: "nagoya",
     title: "Nagoya",
     imageSrc: "assets/videos/nagoya/nagoya_cover.webp",
-    videoSrc: "assets/videos/nagoya/nagoya_tag3r.mp4",
+    videoSrc: "assets/videos/nagoya/nagoya_recal3r.mp4",
   },
   {
     id: "nippon",
     title: "Nippon",
     imageSrc: "assets/videos/nippon/nippon_cover.webp",
-    videoSrc: "assets/videos/nippon/nippon_tag3r.mp4",
+    videoSrc: "assets/videos/nippon/nippon_recal3r.mp4",
   },
   {
     id: "office",
-    title: "Office",
+    title: "BNBU Office",
     imageSrc: "assets/videos/office/office_cover.webp",
     videoSrc: "assets/videos/office/office.mp4",
   },
@@ -83,10 +83,10 @@ const comparisonScenes = [
     imageSrc: "assets/comp/kitchen/kitchen.webp",
     methods: [
       {
-        id: "tag3r",
-        label: "TAG3R",
+        id: "recal3r",
+        label: "ReCal3R",
         description: "Trust-aware adaptive gating",
-        modelSrc: "assets/comp/kitchen/tag3r/scene.glb",
+        modelSrc: "assets/comp/kitchen/recal3r/scene.glb",
       },
       {
         id: "cut3r",
