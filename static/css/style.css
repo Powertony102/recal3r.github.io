@@ -321,6 +321,49 @@ h3 {
   background: #2f2f2f;
 }
 
+.publication-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.link-block {
+  display: inline-flex;
+}
+
+.publication-links .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: #2f2f2f;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 400;
+  text-decoration: none;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.13);
+  transition: background 140ms ease, transform 140ms ease, box-shadow 140ms ease;
+}
+
+.publication-links .button:hover,
+.publication-links .button:focus-visible {
+  background: #1f1f1f;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.16);
+}
+
+.publication-links .button .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .teaser-panel,
 .comparison-card,
 .bibtex-card {
