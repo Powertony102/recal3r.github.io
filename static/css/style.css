@@ -200,9 +200,12 @@ h3 {
 }
 
 .authors.centered,
-.affiliations.centered,
 .hero-actions.centered {
   justify-content: center;
+}
+
+.affiliations.centered {
+  text-align: center;
 }
 
 .authors span {
@@ -269,10 +272,10 @@ h3 {
 }
 
 .institution-logos {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  justify-items: center;
   gap: clamp(18px, 3vw, 34px);
   width: min(100%, 1100px);
   margin: 28px auto 0;
@@ -1110,7 +1113,6 @@ h3 {
   }
 
   .institution-logos {
-    grid-template-columns: repeat(2, 1fr);
     gap: 14px;
   }
 
