@@ -193,7 +193,7 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px 18px;
+  gap: 8px 12px;
   margin-top: 26px;
   font-size: 1.15rem;
   font-weight: 500;
@@ -211,7 +211,7 @@ h3 {
 
 .authors span::after {
   content: ",";
-  margin-left: 18px;
+  margin-left: 12px;
   color: var(--muted);
 }
 
@@ -387,7 +387,7 @@ h3 {
   width: fit-content;
   max-width: 100%;
   margin: 0 auto 18px;
-  padding: 14px 28px;
+  padding: 14px 22px;
   border-radius: 999px;
   background: #2f83d5;
   color: #fff;
