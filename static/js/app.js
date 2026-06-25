@@ -43,37 +43,37 @@ const sequenceVideoItems = [
     id: "nagoya",
     title: "Nagoya",
     imageSrc: "assets/videos/nagoya/nagoya_cover.webp",
-    videoSrc: "assets/videos/nagoya/nagoya_recal3r_compressed.mp4",
+    videoSrc: "assets/videos/nagoya/nagoya_recal3r_1080p.mp4",
   },
   {
     id: "nippon",
     title: "Nippon",
     imageSrc: "assets/videos/nippon/nippon_cover.webp",
-    videoSrc: "assets/videos/nippon/nippon_recal3r_compressed.mp4",
+    videoSrc: "assets/videos/nippon/nippon_recal3r_1080p.mp4",
   },
   {
     id: "office",
     title: "BNBU Office",
     imageSrc: "assets/videos/office/office_cover.webp",
-    videoSrc: "assets/videos/office/office_compressed.mp4",
+    videoSrc: "assets/videos/office/office_1080p.mp4",
   },
   {
     id: "davis_rollerblade",
     title: "DAVIS Rollerblade",
     imageSrc: "assets/videos/DAVIS_rollerblade/rollerblade_cover.webp",
-    videoSrc: "assets/videos/DAVIS_rollerblade/DAVIS_rollerblade_compressed.mp4",
+    videoSrc: "assets/videos/DAVIS_rollerblade/DAVIS_rollerblade_1080p.mp4",
   },
   {
     id: "davis_stroller",
     title: "DAVIS Stroller",
     imageSrc: "assets/videos/DAVIS_stroller/stroller_cover.webp",
-    videoSrc: "assets/videos/DAVIS_stroller/DAVIS_stroller_compressed.mp4",
+    videoSrc: "assets/videos/DAVIS_stroller/DAVIS_stroller_1080p.mp4",
   },
   {
     id: "davis_train",
     title: "DAVIS Train",
     imageSrc: "assets/videos/DAVIS_train/train_cover.webp",
-    videoSrc: "assets/videos/DAVIS_train/DAVIS_train_compressed.mp4",
+    videoSrc: "assets/videos/DAVIS_train/DAVIS_train_1080p.mp4",
   },
 ];
 const comparisonScenes = [
